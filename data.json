@@ -1,0 +1,1675 @@
+{
+  "timestamp": "2026-04-17T23:36:52.964298",
+  "sources": {
+    "dramexchange": {
+      "status": "success",
+      "prices": [],
+      "scraped_at": "2026-04-17T23:36:54.968003"
+    }
+  },
+  "market_data": {
+    "date": "2026-04-06",
+    "products": [
+      {
+        "product": "DDR5 UDIMM 16GB 4800/5600",
+        "weekly_high": 240.0,
+        "weekly_low": 200.0,
+        "spot_price": 220.0,
+        "contract_price": 215.0,
+        "change_pct": 8.5
+      },
+      {
+        "product": "DDR5 RDIMM 32GB 4800/5600",
+        "weekly_high": 1150.0,
+        "weekly_low": 880.0,
+        "spot_price": 1015.0,
+        "contract_price": 980.0,
+        "change_pct": 12.3
+      },
+      {
+        "product": "DDR4 UDIMM 16GB 3200",
+        "weekly_high": 171.0,
+        "weekly_low": 134.0,
+        "spot_price": 152.5,
+        "contract_price": 148.0,
+        "change_pct": 3.2
+      },
+      {
+        "product": "LPDDR4X 8GB",
+        "weekly_high": 85.0,
+        "weekly_low": 72.0,
+        "spot_price": 78.5,
+        "contract_price": 76.0,
+        "change_pct": 2.8
+      },
+      {
+        "product": "GDDR6 8GB",
+        "weekly_high": 95.0,
+        "weekly_low": 82.0,
+        "spot_price": 88.5,
+        "contract_price": 85.0,
+        "change_pct": 5.1
+      }
+    ],
+    "market_summary": {
+      "q1_2026_contract_forecast": "+90-95% QoQ",
+      "q2_2026_contract_forecast": "+58-63% QoQ",
+      "main_driver": "AI server demand",
+      "supply_constraint": "Yes"
+    }
+  },
+  "historical": [
+    {
+      "week": 0,
+      "date": "2025-04-01",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 134.53,
+          "high": 137.22,
+          "low": 131.84
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 533.88,
+          "high": 544.55,
+          "low": 523.2
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 101.0,
+          "high": 103.02,
+          "low": 98.98
+        },
+        "LPDDR4X 8GB": {
+          "price": 71.23,
+          "high": 72.65,
+          "low": 69.81
+        },
+        "GDDR6 8GB": {
+          "price": 79.39,
+          "high": 80.98,
+          "low": 77.8
+        }
+      }
+    },
+    {
+      "week": 1,
+      "date": "2025-04-08",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 116.81,
+          "high": 119.15,
+          "low": 114.47
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 540.84,
+          "high": 551.66,
+          "low": 530.02
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 91.31,
+          "high": 93.14,
+          "low": 89.48
+        },
+        "LPDDR4X 8GB": {
+          "price": 66.57,
+          "high": 67.9,
+          "low": 65.24
+        },
+        "GDDR6 8GB": {
+          "price": 79.63,
+          "high": 81.23,
+          "low": 78.04
+        }
+      }
+    },
+    {
+      "week": 2,
+      "date": "2025-04-15",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 130.32,
+          "high": 132.92,
+          "low": 127.71
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 511.91,
+          "high": 522.15,
+          "low": 501.68
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 98.87,
+          "high": 100.85,
+          "low": 96.89
+        },
+        "LPDDR4X 8GB": {
+          "price": 65.1,
+          "high": 66.4,
+          "low": 63.8
+        },
+        "GDDR6 8GB": {
+          "price": 61.56,
+          "high": 62.79,
+          "low": 60.33
+        }
+      }
+    },
+    {
+      "week": 3,
+      "date": "2025-04-22",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 115.77,
+          "high": 118.09,
+          "low": 113.46
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 485.32,
+          "high": 495.03,
+          "low": 475.62
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 90.36,
+          "high": 92.17,
+          "low": 88.55
+        },
+        "LPDDR4X 8GB": {
+          "price": 63.1,
+          "high": 64.36,
+          "low": 61.83
+        },
+        "GDDR6 8GB": {
+          "price": 75.14,
+          "high": 76.64,
+          "low": 73.63
+        }
+      }
+    },
+    {
+      "week": 4,
+      "date": "2025-04-29",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 120.87,
+          "high": 123.28,
+          "low": 118.45
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 531.96,
+          "high": 542.6,
+          "low": 521.32
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 104.66,
+          "high": 106.76,
+          "low": 102.57
+        },
+        "LPDDR4X 8GB": {
+          "price": 63.66,
+          "high": 64.93,
+          "low": 62.39
+        },
+        "GDDR6 8GB": {
+          "price": 62.67,
+          "high": 63.93,
+          "low": 61.42
+        }
+      }
+    },
+    {
+      "week": 5,
+      "date": "2025-05-06",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 123.29,
+          "high": 125.76,
+          "low": 120.83
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 550.68,
+          "high": 561.7,
+          "low": 539.67
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 90.96,
+          "high": 92.78,
+          "low": 89.14
+        },
+        "LPDDR4X 8GB": {
+          "price": 64.24,
+          "high": 65.52,
+          "low": 62.95
+        },
+        "GDDR6 8GB": {
+          "price": 72.47,
+          "high": 73.92,
+          "low": 71.02
+        }
+      }
+    },
+    {
+      "week": 6,
+      "date": "2025-05-13",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 115.64,
+          "high": 117.96,
+          "low": 113.33
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 505.47,
+          "high": 515.58,
+          "low": 495.36
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 92.58,
+          "high": 94.43,
+          "low": 90.72
+        },
+        "LPDDR4X 8GB": {
+          "price": 60.01,
+          "high": 61.21,
+          "low": 58.81
+        },
+        "GDDR6 8GB": {
+          "price": 71.04,
+          "high": 72.46,
+          "low": 69.62
+        }
+      }
+    },
+    {
+      "week": 7,
+      "date": "2025-05-20",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 118.4,
+          "high": 120.77,
+          "low": 116.03
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 547.96,
+          "high": 558.92,
+          "low": 537.01
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 95.41,
+          "high": 97.31,
+          "low": 93.5
+        },
+        "LPDDR4X 8GB": {
+          "price": 68.95,
+          "high": 70.33,
+          "low": 67.57
+        },
+        "GDDR6 8GB": {
+          "price": 68.3,
+          "high": 69.67,
+          "low": 66.94
+        }
+      }
+    },
+    {
+      "week": 8,
+      "date": "2025-05-27",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 124.96,
+          "high": 127.46,
+          "low": 122.46
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 549.55,
+          "high": 560.54,
+          "low": 538.56
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 99.31,
+          "high": 101.3,
+          "low": 97.32
+        },
+        "LPDDR4X 8GB": {
+          "price": 64.01,
+          "high": 65.29,
+          "low": 62.73
+        },
+        "GDDR6 8GB": {
+          "price": 71.42,
+          "high": 72.85,
+          "low": 69.99
+        }
+      }
+    },
+    {
+      "week": 9,
+      "date": "2025-06-03",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 120.82,
+          "high": 123.24,
+          "low": 118.4
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 475.68,
+          "high": 485.19,
+          "low": 466.16
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 89.4,
+          "high": 91.19,
+          "low": 87.61
+        },
+        "LPDDR4X 8GB": {
+          "price": 65.0,
+          "high": 66.3,
+          "low": 63.7
+        },
+        "GDDR6 8GB": {
+          "price": 71.41,
+          "high": 72.83,
+          "low": 69.98
+        }
+      }
+    },
+    {
+      "week": 10,
+      "date": "2025-06-10",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 107.39,
+          "high": 109.54,
+          "low": 105.24
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 514.27,
+          "high": 524.56,
+          "low": 503.99
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 89.19,
+          "high": 90.97,
+          "low": 87.4
+        },
+        "LPDDR4X 8GB": {
+          "price": 66.98,
+          "high": 68.32,
+          "low": 65.64
+        },
+        "GDDR6 8GB": {
+          "price": 68.27,
+          "high": 69.63,
+          "low": 66.9
+        }
+      }
+    },
+    {
+      "week": 11,
+      "date": "2025-06-17",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 119.0,
+          "high": 121.38,
+          "low": 116.62
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 570.95,
+          "high": 582.37,
+          "low": 559.53
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 95.95,
+          "high": 97.87,
+          "low": 94.03
+        },
+        "LPDDR4X 8GB": {
+          "price": 63.82,
+          "high": 65.1,
+          "low": 62.55
+        },
+        "GDDR6 8GB": {
+          "price": 75.99,
+          "high": 77.51,
+          "low": 74.47
+        }
+      }
+    },
+    {
+      "week": 12,
+      "date": "2025-06-24",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 102.61,
+          "high": 104.66,
+          "low": 100.56
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 500.64,
+          "high": 510.65,
+          "low": 490.63
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 108.66,
+          "high": 110.83,
+          "low": 106.48
+        },
+        "LPDDR4X 8GB": {
+          "price": 66.9,
+          "high": 68.24,
+          "low": 65.56
+        },
+        "GDDR6 8GB": {
+          "price": 68.71,
+          "high": 70.09,
+          "low": 67.34
+        }
+      }
+    },
+    {
+      "week": 13,
+      "date": "2025-07-01",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 118.09,
+          "high": 120.45,
+          "low": 115.73
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 588.65,
+          "high": 600.43,
+          "low": 576.88
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 104.06,
+          "high": 106.14,
+          "low": 101.98
+        },
+        "LPDDR4X 8GB": {
+          "price": 67.69,
+          "high": 69.04,
+          "low": 66.33
+        },
+        "GDDR6 8GB": {
+          "price": 73.01,
+          "high": 74.47,
+          "low": 71.55
+        }
+      }
+    },
+    {
+      "week": 14,
+      "date": "2025-07-08",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 122.46,
+          "high": 124.91,
+          "low": 120.01
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 577.0,
+          "high": 588.54,
+          "low": 565.46
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 106.94,
+          "high": 109.08,
+          "low": 104.8
+        },
+        "LPDDR4X 8GB": {
+          "price": 65.54,
+          "high": 66.85,
+          "low": 64.23
+        },
+        "GDDR6 8GB": {
+          "price": 74.55,
+          "high": 76.04,
+          "low": 73.06
+        }
+      }
+    },
+    {
+      "week": 15,
+      "date": "2025-07-15",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 126.71,
+          "high": 129.24,
+          "low": 124.17
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 632.39,
+          "high": 645.04,
+          "low": 619.74
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 100.34,
+          "high": 102.35,
+          "low": 98.33
+        },
+        "LPDDR4X 8GB": {
+          "price": 66.19,
+          "high": 67.51,
+          "low": 64.87
+        },
+        "GDDR6 8GB": {
+          "price": 70.4,
+          "high": 71.81,
+          "low": 69.0
+        }
+      }
+    },
+    {
+      "week": 16,
+      "date": "2025-07-22",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 124.25,
+          "high": 126.74,
+          "low": 121.77
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 504.74,
+          "high": 514.83,
+          "low": 494.64
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 82.86,
+          "high": 84.51,
+          "low": 81.2
+        },
+        "LPDDR4X 8GB": {
+          "price": 63.69,
+          "high": 64.96,
+          "low": 62.42
+        },
+        "GDDR6 8GB": {
+          "price": 74.57,
+          "high": 76.06,
+          "low": 73.08
+        }
+      }
+    },
+    {
+      "week": 17,
+      "date": "2025-07-29",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 112.19,
+          "high": 114.43,
+          "low": 109.94
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 539.43,
+          "high": 550.22,
+          "low": 528.64
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 105.97,
+          "high": 108.09,
+          "low": 103.86
+        },
+        "LPDDR4X 8GB": {
+          "price": 70.24,
+          "high": 71.65,
+          "low": 68.84
+        },
+        "GDDR6 8GB": {
+          "price": 69.45,
+          "high": 70.84,
+          "low": 68.07
+        }
+      }
+    },
+    {
+      "week": 18,
+      "date": "2025-08-05",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 111.7,
+          "high": 113.94,
+          "low": 109.47
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 583.7,
+          "high": 595.38,
+          "low": 572.03
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 103.75,
+          "high": 105.82,
+          "low": 101.67
+        },
+        "LPDDR4X 8GB": {
+          "price": 63.84,
+          "high": 65.12,
+          "low": 62.56
+        },
+        "GDDR6 8GB": {
+          "price": 72.11,
+          "high": 73.55,
+          "low": 70.67
+        }
+      }
+    },
+    {
+      "week": 19,
+      "date": "2025-08-12",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 106.34,
+          "high": 108.46,
+          "low": 104.21
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 528.8,
+          "high": 539.38,
+          "low": 518.23
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 97.38,
+          "high": 99.33,
+          "low": 95.44
+        },
+        "LPDDR4X 8GB": {
+          "price": 66.74,
+          "high": 68.07,
+          "low": 65.4
+        },
+        "GDDR6 8GB": {
+          "price": 66.34,
+          "high": 67.67,
+          "low": 65.01
+        }
+      }
+    },
+    {
+      "week": 20,
+      "date": "2025-08-19",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 134.21,
+          "high": 136.89,
+          "low": 131.52
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 450.51,
+          "high": 459.52,
+          "low": 441.5
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 94.07,
+          "high": 95.95,
+          "low": 92.19
+        },
+        "LPDDR4X 8GB": {
+          "price": 67.13,
+          "high": 68.47,
+          "low": 65.79
+        },
+        "GDDR6 8GB": {
+          "price": 70.86,
+          "high": 72.28,
+          "low": 69.44
+        }
+      }
+    },
+    {
+      "week": 21,
+      "date": "2025-08-26",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 121.11,
+          "high": 123.53,
+          "low": 118.69
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 589.22,
+          "high": 601.0,
+          "low": 577.44
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 94.65,
+          "high": 96.54,
+          "low": 92.76
+        },
+        "LPDDR4X 8GB": {
+          "price": 63.79,
+          "high": 65.07,
+          "low": 62.51
+        },
+        "GDDR6 8GB": {
+          "price": 69.36,
+          "high": 70.75,
+          "low": 67.98
+        }
+      }
+    },
+    {
+      "week": 22,
+      "date": "2025-09-02",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 142.49,
+          "high": 145.34,
+          "low": 139.64
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 554.59,
+          "high": 565.68,
+          "low": 543.49
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 93.14,
+          "high": 95.0,
+          "low": 91.28
+        },
+        "LPDDR4X 8GB": {
+          "price": 60.82,
+          "high": 62.03,
+          "low": 59.6
+        },
+        "GDDR6 8GB": {
+          "price": 66.04,
+          "high": 67.36,
+          "low": 64.72
+        }
+      }
+    },
+    {
+      "week": 23,
+      "date": "2025-09-09",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 119.54,
+          "high": 121.93,
+          "low": 117.15
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 517.46,
+          "high": 527.81,
+          "low": 507.11
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 91.61,
+          "high": 93.44,
+          "low": 89.77
+        },
+        "LPDDR4X 8GB": {
+          "price": 68.07,
+          "high": 69.43,
+          "low": 66.7
+        },
+        "GDDR6 8GB": {
+          "price": 81.84,
+          "high": 83.48,
+          "low": 80.2
+        }
+      }
+    },
+    {
+      "week": 24,
+      "date": "2025-09-16",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 118.33,
+          "high": 120.7,
+          "low": 115.97
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 565.15,
+          "high": 576.45,
+          "low": 553.85
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 92.86,
+          "high": 94.72,
+          "low": 91.0
+        },
+        "LPDDR4X 8GB": {
+          "price": 57.9,
+          "high": 59.06,
+          "low": 56.74
+        },
+        "GDDR6 8GB": {
+          "price": 77.11,
+          "high": 78.65,
+          "low": 75.57
+        }
+      }
+    },
+    {
+      "week": 25,
+      "date": "2025-09-23",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 124.26,
+          "high": 126.75,
+          "low": 121.78
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 646.59,
+          "high": 659.52,
+          "low": 633.66
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 93.4,
+          "high": 95.27,
+          "low": 91.53
+        },
+        "LPDDR4X 8GB": {
+          "price": 65.37,
+          "high": 66.67,
+          "low": 64.06
+        },
+        "GDDR6 8GB": {
+          "price": 83.64,
+          "high": 85.32,
+          "low": 81.97
+        }
+      }
+    },
+    {
+      "week": 26,
+      "date": "2025-09-30",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 118.29,
+          "high": 120.66,
+          "low": 115.93
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 624.31,
+          "high": 636.79,
+          "low": 611.82
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 85.8,
+          "high": 87.52,
+          "low": 84.09
+        },
+        "LPDDR4X 8GB": {
+          "price": 61.75,
+          "high": 62.98,
+          "low": 60.51
+        },
+        "GDDR6 8GB": {
+          "price": 81.79,
+          "high": 83.43,
+          "low": 80.16
+        }
+      }
+    },
+    {
+      "week": 27,
+      "date": "2025-10-07",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 115.83,
+          "high": 118.15,
+          "low": 113.52
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 559.17,
+          "high": 570.36,
+          "low": 547.99
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 98.26,
+          "high": 100.23,
+          "low": 96.3
+        },
+        "LPDDR4X 8GB": {
+          "price": 66.45,
+          "high": 67.78,
+          "low": 65.12
+        },
+        "GDDR6 8GB": {
+          "price": 71.54,
+          "high": 72.97,
+          "low": 70.11
+        }
+      }
+    },
+    {
+      "week": 28,
+      "date": "2025-10-14",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 116.13,
+          "high": 118.45,
+          "low": 113.8
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 691.31,
+          "high": 705.14,
+          "low": 677.49
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 92.63,
+          "high": 94.48,
+          "low": 90.77
+        },
+        "LPDDR4X 8GB": {
+          "price": 74.52,
+          "high": 76.01,
+          "low": 73.03
+        },
+        "GDDR6 8GB": {
+          "price": 76.01,
+          "high": 77.53,
+          "low": 74.49
+        }
+      }
+    },
+    {
+      "week": 29,
+      "date": "2025-10-21",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 120.85,
+          "high": 123.26,
+          "low": 118.43
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 639.11,
+          "high": 651.9,
+          "low": 626.33
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 92.25,
+          "high": 94.09,
+          "low": 90.4
+        },
+        "LPDDR4X 8GB": {
+          "price": 65.44,
+          "high": 66.75,
+          "low": 64.13
+        },
+        "GDDR6 8GB": {
+          "price": 78.25,
+          "high": 79.81,
+          "low": 76.68
+        }
+      }
+    },
+    {
+      "week": 30,
+      "date": "2025-10-28",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 125.15,
+          "high": 127.65,
+          "low": 122.65
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 534.05,
+          "high": 544.73,
+          "low": 523.36
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 98.03,
+          "high": 99.99,
+          "low": 96.07
+        },
+        "LPDDR4X 8GB": {
+          "price": 62.87,
+          "high": 64.13,
+          "low": 61.62
+        },
+        "GDDR6 8GB": {
+          "price": 69.77,
+          "high": 71.17,
+          "low": 68.38
+        }
+      }
+    },
+    {
+      "week": 31,
+      "date": "2025-11-04",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 129.61,
+          "high": 132.21,
+          "low": 127.02
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 543.73,
+          "high": 554.6,
+          "low": 532.85
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 93.86,
+          "high": 95.73,
+          "low": 91.98
+        },
+        "LPDDR4X 8GB": {
+          "price": 66.44,
+          "high": 67.76,
+          "low": 65.11
+        },
+        "GDDR6 8GB": {
+          "price": 71.53,
+          "high": 72.96,
+          "low": 70.1
+        }
+      }
+    },
+    {
+      "week": 32,
+      "date": "2025-11-11",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 120.69,
+          "high": 123.1,
+          "low": 118.28
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 578.15,
+          "high": 589.72,
+          "low": 566.59
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 91.25,
+          "high": 93.07,
+          "low": 89.42
+        },
+        "LPDDR4X 8GB": {
+          "price": 69.04,
+          "high": 70.42,
+          "low": 67.66
+        },
+        "GDDR6 8GB": {
+          "price": 74.78,
+          "high": 76.27,
+          "low": 73.28
+        }
+      }
+    },
+    {
+      "week": 33,
+      "date": "2025-11-18",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 108.57,
+          "high": 110.74,
+          "low": 106.4
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 496.58,
+          "high": 506.51,
+          "low": 486.65
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 91.15,
+          "high": 92.97,
+          "low": 89.32
+        },
+        "LPDDR4X 8GB": {
+          "price": 67.37,
+          "high": 68.72,
+          "low": 66.02
+        },
+        "GDDR6 8GB": {
+          "price": 71.69,
+          "high": 73.13,
+          "low": 70.26
+        }
+      }
+    },
+    {
+      "week": 34,
+      "date": "2025-11-25",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 107.53,
+          "high": 109.68,
+          "low": 105.38
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 550.63,
+          "high": 561.65,
+          "low": 539.62
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 97.76,
+          "high": 99.71,
+          "low": 95.8
+        },
+        "LPDDR4X 8GB": {
+          "price": 63.82,
+          "high": 65.09,
+          "low": 62.54
+        },
+        "GDDR6 8GB": {
+          "price": 79.24,
+          "high": 80.83,
+          "low": 77.66
+        }
+      }
+    },
+    {
+      "week": 35,
+      "date": "2025-12-02",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 119.13,
+          "high": 121.51,
+          "low": 116.75
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 558.84,
+          "high": 570.02,
+          "low": 547.67
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 103.86,
+          "high": 105.94,
+          "low": 101.79
+        },
+        "LPDDR4X 8GB": {
+          "price": 62.99,
+          "high": 64.25,
+          "low": 61.73
+        },
+        "GDDR6 8GB": {
+          "price": 74.12,
+          "high": 75.6,
+          "low": 72.63
+        }
+      }
+    },
+    {
+      "week": 36,
+      "date": "2025-12-09",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 137.52,
+          "high": 140.27,
+          "low": 134.77
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 619.22,
+          "high": 631.6,
+          "low": 606.84
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 106.95,
+          "high": 109.09,
+          "low": 104.81
+        },
+        "LPDDR4X 8GB": {
+          "price": 70.14,
+          "high": 71.54,
+          "low": 68.74
+        },
+        "GDDR6 8GB": {
+          "price": 72.01,
+          "high": 73.45,
+          "low": 70.57
+        }
+      }
+    },
+    {
+      "week": 37,
+      "date": "2025-12-16",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 117.4,
+          "high": 119.75,
+          "low": 115.05
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 540.37,
+          "high": 551.18,
+          "low": 529.57
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 108.42,
+          "high": 110.59,
+          "low": 106.26
+        },
+        "LPDDR4X 8GB": {
+          "price": 68.56,
+          "high": 69.93,
+          "low": 67.19
+        },
+        "GDDR6 8GB": {
+          "price": 84.49,
+          "high": 86.18,
+          "low": 82.8
+        }
+      }
+    },
+    {
+      "week": 38,
+      "date": "2025-12-23",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 153.86,
+          "high": 156.94,
+          "low": 150.79
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 568.83,
+          "high": 580.2,
+          "low": 557.45
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 111.15,
+          "high": 113.38,
+          "low": 108.93
+        },
+        "LPDDR4X 8GB": {
+          "price": 76.61,
+          "high": 78.14,
+          "low": 75.08
+        },
+        "GDDR6 8GB": {
+          "price": 93.61,
+          "high": 95.49,
+          "low": 91.74
+        }
+      }
+    },
+    {
+      "week": 39,
+      "date": "2025-12-30",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 133.58,
+          "high": 136.26,
+          "low": 130.91
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 710.23,
+          "high": 724.44,
+          "low": 696.03
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 120.09,
+          "high": 122.49,
+          "low": 117.69
+        },
+        "LPDDR4X 8GB": {
+          "price": 72.79,
+          "high": 74.25,
+          "low": 71.34
+        },
+        "GDDR6 8GB": {
+          "price": 88.42,
+          "high": 90.19,
+          "low": 86.65
+        }
+      }
+    },
+    {
+      "week": 40,
+      "date": "2026-01-06",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 145.41,
+          "high": 148.32,
+          "low": 142.5
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 670.18,
+          "high": 683.58,
+          "low": 656.77
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 128.83,
+          "high": 131.4,
+          "low": 126.25
+        },
+        "LPDDR4X 8GB": {
+          "price": 80.82,
+          "high": 82.44,
+          "low": 79.2
+        },
+        "GDDR6 8GB": {
+          "price": 88.85,
+          "high": 90.63,
+          "low": 87.08
+        }
+      }
+    },
+    {
+      "week": 41,
+      "date": "2026-01-13",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 154.55,
+          "high": 157.64,
+          "low": 151.46
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 852.54,
+          "high": 869.59,
+          "low": 835.49
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 121.11,
+          "high": 123.53,
+          "low": 118.69
+        },
+        "LPDDR4X 8GB": {
+          "price": 81.36,
+          "high": 82.99,
+          "low": 79.73
+        },
+        "GDDR6 8GB": {
+          "price": 89.13,
+          "high": 90.91,
+          "low": 87.35
+        }
+      }
+    },
+    {
+      "week": 42,
+      "date": "2026-01-20",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 183.39,
+          "high": 187.06,
+          "low": 179.72
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 775.04,
+          "high": 790.54,
+          "low": 759.54
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 129.0,
+          "high": 131.58,
+          "low": 126.42
+        },
+        "LPDDR4X 8GB": {
+          "price": 88.72,
+          "high": 90.5,
+          "low": 86.95
+        },
+        "GDDR6 8GB": {
+          "price": 103.05,
+          "high": 105.11,
+          "low": 100.99
+        }
+      }
+    },
+    {
+      "week": 43,
+      "date": "2026-01-27",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 177.88,
+          "high": 181.44,
+          "low": 174.32
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 781.63,
+          "high": 797.26,
+          "low": 765.99
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 131.17,
+          "high": 133.8,
+          "low": 128.55
+        },
+        "LPDDR4X 8GB": {
+          "price": 82.41,
+          "high": 84.06,
+          "low": 80.76
+        },
+        "GDDR6 8GB": {
+          "price": 108.21,
+          "high": 110.37,
+          "low": 106.04
+        }
+      }
+    },
+    {
+      "week": 44,
+      "date": "2026-02-03",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 191.0,
+          "high": 194.82,
+          "low": 187.18
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 771.28,
+          "high": 786.7,
+          "low": 755.85
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 147.09,
+          "high": 150.03,
+          "low": 144.15
+        },
+        "LPDDR4X 8GB": {
+          "price": 99.16,
+          "high": 101.14,
+          "low": 97.18
+        },
+        "GDDR6 8GB": {
+          "price": 96.61,
+          "high": 98.54,
+          "low": 94.68
+        }
+      }
+    },
+    {
+      "week": 45,
+      "date": "2026-02-10",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 176.45,
+          "high": 179.98,
+          "low": 172.92
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 775.79,
+          "high": 791.31,
+          "low": 760.27
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 144.7,
+          "high": 147.6,
+          "low": 141.81
+        },
+        "LPDDR4X 8GB": {
+          "price": 104.46,
+          "high": 106.55,
+          "low": 102.37
+        },
+        "GDDR6 8GB": {
+          "price": 108.16,
+          "high": 110.32,
+          "low": 105.99
+        }
+      }
+    },
+    {
+      "week": 46,
+      "date": "2026-02-17",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 179.51,
+          "high": 183.1,
+          "low": 175.92
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 700.93,
+          "high": 714.95,
+          "low": 686.91
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 154.11,
+          "high": 157.19,
+          "low": 151.03
+        },
+        "LPDDR4X 8GB": {
+          "price": 105.7,
+          "high": 107.81,
+          "low": 103.58
+        },
+        "GDDR6 8GB": {
+          "price": 103.74,
+          "high": 105.82,
+          "low": 101.67
+        }
+      }
+    },
+    {
+      "week": 47,
+      "date": "2026-02-24",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 213.77,
+          "high": 218.04,
+          "low": 209.49
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 902.27,
+          "high": 920.32,
+          "low": 884.23
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 155.73,
+          "high": 158.84,
+          "low": 152.61
+        },
+        "LPDDR4X 8GB": {
+          "price": 109.24,
+          "high": 111.43,
+          "low": 107.06
+        },
+        "GDDR6 8GB": {
+          "price": 111.66,
+          "high": 113.89,
+          "low": 109.42
+        }
+      }
+    },
+    {
+      "week": 48,
+      "date": "2026-03-03",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 182.87,
+          "high": 186.52,
+          "low": 179.21
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 923.52,
+          "high": 941.99,
+          "low": 905.05
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 155.58,
+          "high": 158.69,
+          "low": 152.47
+        },
+        "LPDDR4X 8GB": {
+          "price": 101.97,
+          "high": 104.01,
+          "low": 99.93
+        },
+        "GDDR6 8GB": {
+          "price": 133.31,
+          "high": 135.97,
+          "low": 130.64
+        }
+      }
+    },
+    {
+      "week": 49,
+      "date": "2026-03-10",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 189.52,
+          "high": 193.31,
+          "low": 185.73
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 794.78,
+          "high": 810.68,
+          "low": 778.89
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 152.88,
+          "high": 155.94,
+          "low": 149.83
+        },
+        "LPDDR4X 8GB": {
+          "price": 107.65,
+          "high": 109.81,
+          "low": 105.5
+        },
+        "GDDR6 8GB": {
+          "price": 123.28,
+          "high": 125.75,
+          "low": 120.82
+        }
+      }
+    },
+    {
+      "week": 50,
+      "date": "2026-03-17",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 205.02,
+          "high": 209.12,
+          "low": 200.92
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 1076.57,
+          "high": 1098.11,
+          "low": 1055.04
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 172.08,
+          "high": 175.53,
+          "low": 168.64
+        },
+        "LPDDR4X 8GB": {
+          "price": 106.2,
+          "high": 108.33,
+          "low": 104.08
+        },
+        "GDDR6 8GB": {
+          "price": 123.8,
+          "high": 126.28,
+          "low": 121.32
+        }
+      }
+    },
+    {
+      "week": 51,
+      "date": "2026-03-24",
+      "products": {
+        "DDR5 UDIMM 16GB": {
+          "price": 238.28,
+          "high": 243.05,
+          "low": 233.52
+        },
+        "DDR5 RDIMM 32GB": {
+          "price": 943.1,
+          "high": 961.96,
+          "low": 924.24
+        },
+        "DDR4 UDIMM 16GB": {
+          "price": 151.48,
+          "high": 154.51,
+          "low": 148.45
+        },
+        "LPDDR4X 8GB": {
+          "price": 121.05,
+          "high": 123.47,
+          "low": 118.63
+        },
+        "GDDR6 8GB": {
+          "price": 137.57,
+          "high": 140.32,
+          "low": 134.82
+        }
+      }
+    }
+  ]
+}
