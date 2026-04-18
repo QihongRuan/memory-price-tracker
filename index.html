@@ -1,1488 +1,570 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Price Index</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Price Index — Agentic Sciences</title>
+<meta name="description" content="Verified DRAM, HBM, and NAND spot and contract prices. Updated weekly from TrendForce and DRAMeXchange.">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #0a0a0b;
+  --panel: #111114;
+  --panel-2: #17171c;
+  --line: #222228;
+  --text: #e8e8ea;
+  --muted: #8a8a93;
+  --accent: #f5c518;
+  --up: #ef4444;
+  --down: #22c55e;
+  --verified: #3b82f6;
+  --estimated: #a855f7;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { background:var(--bg); color:var(--text); font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif; font-size:14px; line-height:1.55; -webkit-font-smoothing:antialiased; }
+a { color:var(--accent); text-decoration:none; }
+a:hover { text-decoration:underline; }
+.container { max-width:1240px; margin:0 auto; padding:0 24px; }
 
-        body {
-            font-family: "Times New Roman", Times, serif;
-            background: #ffffff;
-            color: #000000;
-            line-height: 1.7;
-            font-size: 12pt;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 1.5in 1in 2in 1in;
-        }
+/* Top bar */
+.topbar { border-bottom:1px solid var(--line); background:rgba(10,10,11,.85); backdrop-filter: blur(8px); position:sticky; top:0; z-index:10; }
+.topbar-inner { display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:-0.01em; }
+.brand-dot { width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent); }
+.brand-name { font-size:14px; }
+.brand-tag { color:var(--muted); font-size:12px; font-family:var(--mono); text-transform:uppercase; letter-spacing:0.08em; }
+.nav { display:flex; gap:20px; font-size:13px; color:var(--muted); }
+.nav a { color:var(--muted); }
+.nav a:hover { color:var(--text); text-decoration:none; }
+.status-chip { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-family:var(--mono); color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+.pulse { width:6px; height:6px; border-radius:50%; background:var(--down); box-shadow:0 0 8px var(--down); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-        h1 {
-            font-size: 18pt;
-            font-weight: bold;
-            margin: 24pt 0 12pt 0;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+/* Hero */
+.hero { padding:56px 0 32px; border-bottom:1px solid var(--line); }
+.hero h1 { font-size:40px; font-weight:700; letter-spacing:-0.02em; line-height:1.1; max-width:800px; }
+.hero h1 .accent { color:var(--accent); }
+.hero p.lede { color:var(--muted); max-width:720px; margin-top:16px; font-size:16px; }
+.hero-meta { display:flex; gap:24px; margin-top:24px; font-family:var(--mono); font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+.hero-meta span strong { color:var(--text); font-weight:500; }
 
-        h2 {
-            font-size: 14pt;
-            font-weight: bold;
-            margin: 18pt 0 6pt 0;
-            border-bottom: 1px solid #000;
-            padding-bottom: 3pt;
-        }
+/* Section */
+section { padding:48px 0; border-bottom:1px solid var(--line); }
+.section-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+.section-title { font-size:11px; font-family:var(--mono); color:var(--muted); text-transform:uppercase; letter-spacing:0.12em; }
+.section-h { font-size:22px; font-weight:600; letter-spacing:-0.01em; margin-top:4px; }
+.section-sub { color:var(--muted); font-size:13px; max-width:640px; margin-top:6px; }
 
-        h3 {
-            font-size: 12pt;
-            font-weight: bold;
-            margin: 12pt 0 6pt 0;
-        }
+/* Ticker cards */
+.ticker-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
+.ticker { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:18px 20px; transition:border-color .2s; }
+.ticker:hover { border-color:#2e2e36; }
+.ticker-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; font-family:var(--mono); display:flex; align-items:center; gap:8px; }
+.badge { display:inline-block; font-size:9px; padding:2px 6px; border-radius:3px; font-family:var(--mono); letter-spacing:0.05em; }
+.badge-verified { background:rgba(59,130,246,0.12); color:var(--verified); border:1px solid rgba(59,130,246,0.3); }
+.badge-estimate { background:rgba(168,85,247,0.12); color:var(--estimated); border:1px solid rgba(168,85,247,0.3); }
+.ticker-value { font-size:28px; font-weight:600; margin-top:10px; font-variant-numeric: tabular-nums; letter-spacing:-0.02em; }
+.ticker-unit { font-size:13px; color:var(--muted); margin-left:4px; font-weight:400; }
+.ticker-change { display:flex; align-items:center; gap:10px; margin-top:8px; font-size:12px; font-family:var(--mono); }
+.change-pos { color:var(--up); }
+.change-neg { color:var(--down); }
+.ticker-note { color:var(--muted); font-size:11px; margin-top:8px; }
 
-        p {
-            margin: 6pt 0;
-            text-align: justify;
-        }
+/* Chart panels */
+.chart-panel { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:24px; }
+.chart-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:12px; }
+.chart-title { font-size:15px; font-weight:600; }
+.chart-legend { display:flex; gap:14px; font-size:12px; color:var(--muted); flex-wrap:wrap; }
+.legend-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+.chart-box { position:relative; height:360px; }
 
-        .abstract {
-            background: #fafafa;
-            border-left: 3px solid #000;
-            padding: 12pt;
-            margin: 18pt 0;
-            font-style: italic;
-        }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media (max-width: 860px) { .two-col { grid-template-columns:1fr; } }
 
-        .abstract-title {
-            font-weight: bold;
-            font-style: normal;
-        }
+/* Contract table */
+.table { width:100%; border-collapse:collapse; font-size:13px; }
+.table thead th { text-align:left; font-size:11px; font-family:var(--mono); color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; padding:12px 16px; border-bottom:1px solid var(--line); background:var(--panel-2); }
+.table tbody td { padding:14px 16px; border-bottom:1px solid var(--line); font-variant-numeric: tabular-nums; }
+.table tbody tr:last-child td { border-bottom:none; }
+.table-wrap { background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+.qoq-big { color:var(--up); font-weight:600; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 12pt 0 18pt 0;
-            font-size: 11pt;
-        }
+/* Narrative callouts */
+.callouts { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px; }
+.callout { background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:8px; padding:18px 20px; }
+.callout h4 { font-size:14px; margin-bottom:8px; }
+.callout p { color:var(--muted); font-size:13px; }
+.callout .year { font-family:var(--mono); font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:0.08em; }
 
-        th, td {
-            border: 1px solid #000;
-            padding: 6pt 8pt;
-            text-align: left;
-        }
+/* Sources list */
+.sources { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; }
+.source { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; font-size:13px; }
+.source-name { font-weight:600; }
+.source-desc { color:var(--muted); font-size:12px; margin-top:4px; }
 
-        th {
-            background: #f5f5f5;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 9pt;
-        }
+/* Footer */
+footer { padding:40px 0 60px; color:var(--muted); font-size:12px; }
+footer .foot-inner { display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+footer a { color:var(--muted); }
 
-        .numeric {
-            font-family: "Courier New", monospace;
-            text-align: right;
-        }
-
-        .positive { color: #000; }
-        .negative { color: #000; }
-
-        .data-source {
-            font-size: 9pt;
-            color: #333;
-            margin-top: 3pt;
-        }
-
-        .verified {
-            font-weight: bold;
-        }
-
-        .section-number {
-            display: inline-block;
-            width: 30pt;
-        }
-
-        .warning-box {
-            border: 1px solid #000;
-            padding: 12pt;
-            margin: 18pt 0;
-        }
-
-        .warning-box h3 {
-            margin-top: 0;
-        }
-
-        .forecast-table {
-            margin: 12pt 0;
-        }
-
-        .forecast-table td {
-            border: none;
-            padding: 4pt 8pt;
-        }
-
-        .forecast-table tr:not(:last-child) td {
-            border-bottom: 1px solid #ddd;
-        }
-
-        footer {
-            margin-top: 36pt;
-            padding-top: 12pt;
-            border-top: 1px solid #000;
-            font-size: 10pt;
-            text-align: center;
-        }
-
-        footer a {
-            color: #000;
-            text-decoration: none;
-            border-bottom: 1px solid #000;
-        }
-
-        .timestamp {
-            text-align: right;
-            font-size: 9pt;
-            color: #666;
-            margin: 6pt 0;
-        }
-
-        .note {
-            font-size: 10pt;
-            color: #333;
-            margin: 6pt 0;
-        }
-
-        .methodology {
-            font-size: 11pt;
-        }
-
-        .methodology p {
-            text-align: left;
-        }
-
-        ul {
-            margin: 6pt 0 6pt 24pt;
-        }
-
-        li {
-            margin: 3pt 0;
-        }
-
-        /* Chart styles */
-        .chart-container {
-            margin: 24pt 0;
-            padding: 12pt;
-            border: 1px solid #000;
-        }
-
-        .chart-title {
-            font-size: 11pt;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 12pt;
-        }
-
-        .chart {
-            width: 100%;
-            height: 300px;
-            position: relative;
-        }
-
-        .chart svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .chart-legend {
-            display: flex;
-            justify-content: center;
-            gap: 24pt;
-            margin-top: 12pt;
-            font-size: 10pt;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6pt;
-        }
-
-        .legend-color {
-            width: 20pt;
-            height: 3pt;
-        }
-
-        .chart-caption {
-            text-align: center;
-            font-size: 9pt;
-            margin-top: 8pt;
-            font-style: italic;
-        }
-
-        .axis-line {
-            stroke: #000;
-            stroke-width: 1;
-        }
-
-        .grid-line {
-            stroke: #ccc;
-            stroke-width: 0.5;
-        }
-
-        .data-line {
-            fill: none;
-            stroke-width: 1.5;
-        }
-
-        .axis-label {
-            font-size: 9pt;
-            fill: #000;
-        }
-
-        .axis-title {
-            font-size: 10pt;
-            fill: #000;
-            font-weight: bold;
-        }
-
-        .bar-chart .bar {
-            stroke: #000;
-            stroke-width: 0.5;
-        }
-
-        @media print {
-            body {
-                padding: 0;
-            }
-            .no-print {
-                display: none;
-            }
-        }
-
-        @media screen and (max-width: 768px) {
-            body {
-                padding: 20px;
-                font-size: 11pt;
-            }
-            table {
-                font-size: 9pt;
-            }
-            .chart {
-                height: 200px;
-            }
-        }
-    </style>
+/* Disclaimer */
+.disclaimer { background:rgba(245,197,24,0.06); border:1px solid rgba(245,197,24,0.2); border-radius:10px; padding:16px 20px; font-size:13px; color:#d4d4d8; margin-top:24px; }
+.disclaimer strong { color:var(--accent); }
+</style>
 </head>
 <body>
-    <h1>Memory Price Index</h1>
 
-    <div class="abstract">
-        <span class="abstract-title">Abstract.</span>
-        This index provides spot price data for DRAM and NAND Flash memory components from primary market sources. All prices are sourced from DRAMeXchange (TrendForce) and verified against The Memory Guy (Objective Analysis) using InSpectrum data. Historical price points represent actual recorded market values. Last updated: April 18, 2026.
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">Memory Price Index</span>
+      <span class="brand-tag">· Agentic Sciences</span>
+    </div>
+    <nav class="nav">
+      <a href="#spot">Spot</a>
+      <a href="#contract">Contract</a>
+      <a href="#hbm">HBM</a>
+      <a href="#history">History</a>
+      <a href="#sources">Sources</a>
+    </nav>
+    <div class="status-chip"><span class="pulse"></span> Week of Apr 14, 2026</div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="container">
+    <h1>DRAM, HBM &amp; NAND <span class="accent">price benchmark</span> — tracking the AI memory supercycle.</h1>
+    <p class="lede">A weekly, source-verifiable index of memory prices. Designed as reference data for perpetual-futures style contracts and research, with every datapoint tagged by source and recency.</p>
+    <div class="hero-meta">
+      <span>As of <strong>2026-04-14</strong></span>
+      <span>Spot source <strong>TrendForce</strong></span>
+      <span>Contract source <strong>TrendForce / Industry</strong></span>
+      <span>Historical anchor <strong>The Memory Guy</strong></span>
+    </div>
+  </div>
+</header>
+
+<!-- SPOT -->
+<section id="spot">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-title">01 · Spot market</div>
+        <h2 class="section-h">Chip-level spot prices, week of Apr 14 2026</h2>
+        <p class="section-sub">Average transacted prices on the open DRAM/NAND spot market. Small volumes, but price discovery leads contract by weeks.</p>
+      </div>
     </div>
 
-    <h2><span class="section-number">1.</span>Price Trend Analysis (52 Weeks)</h2>
-    <p class="timestamp">Source: DRAMeXchange | Period: April 2025 – April 2026 (52 weeks)</p>
+    <div class="ticker-grid">
+      <div class="ticker">
+        <div class="ticker-label">DDR4 1Gx8 3200MT/s <span class="badge badge-verified">VERIFIED</span></div>
+        <div class="ticker-value">$33.40<span class="ticker-unit">/ chip</span></div>
+        <div class="ticker-change"><span class="change-neg">▼ 0.48%</span><span style="color:var(--muted)">w/w</span></div>
+        <div class="ticker-note">TrendForce spot, Apr 14 · prior week $33.56</div>
+      </div>
+      <div class="ticker">
+        <div class="ticker-label">DDR5 16Gb <span class="badge badge-verified">VERIFIED</span></div>
+        <div class="ticker-value">~$7<span class="ticker-unit">/ chip</span></div>
+        <div class="ticker-change"><span class="change-pos">▲ all-time high</span></div>
+        <div class="ticker-note">Mainstream grade · surpassing 2017-18 peaks</div>
+      </div>
+      <div class="ticker">
+        <div class="ticker-label">DDR4 16Gb eTT <span class="badge badge-verified">VERIFIED</span></div>
+        <div class="ticker-value">~$10<span class="ticker-unit">/ chip</span></div>
+        <div class="ticker-change"><span class="change-pos">▲ +2,200% YoY</span></div>
+        <div class="ticker-note">Legacy phase-out + supply compression</div>
+      </div>
+      <div class="ticker">
+        <div class="ticker-label">NAND 512Gb TLC wafer <span class="badge badge-verified">VERIFIED</span></div>
+        <div class="ticker-value">$21.00<span class="ticker-unit">/ wafer</span></div>
+        <div class="ticker-change"><span class="change-neg">▼ 3.13%</span><span style="color:var(--muted)">w/w</span></div>
+        <div class="ticker-note">TrendForce spot, week of Apr 15</div>
+      </div>
+    </div>
 
-    <div class="chart-container">
-        <div class="chart-title">Figure 1. DRAM Module Spot Prices (52-Week Trend)</div>
-        <div class="chart" id="priceTrendChart"></div>
-        <div class="chart-legend">
-            <div class="legend-item">
-                <div class="legend-color" style="background: #000;"></div>
-                <span>DDR5 UDIMM 16GB — Current: $223 ($13.94/GB)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: #666;"></div>
-                <span>DDR5 RDIMM 32GB — Current: $930 ($14.53/GB, ÷4 shown)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: #999;"></div>
-                <span>DDR4 UDIMM 16GB — Current: $149 ($9.31/GB)</span>
-            </div>
+    <div style="margin-top:24px;" class="chart-panel">
+      <div class="chart-head">
+        <div>
+          <div class="chart-title">Spot vs. retail — the gap tells the story</div>
+          <div class="section-sub">Chip spot prices are softening as weak end-demand meets high headline prices; contract prices are still climbing. The divergence is the signal.</div>
         </div>
-        <div class="chart-caption"><strong>Market Type:</strong> Module-level spot prices (assembled memory sticks). <strong>Note:</strong> DDR5 > DDR4 in modules reflects normal pricing (newer tech premium). See Figure 2 for chip-level pricing where DDR4 > DDR5 due to supply constraints. DDR5 RDIMM prices divided by 4 for comparison. Data source: DRAMeXchange daily session averages.</div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#f5c518"></span>DDR4 1Gx8 chip ($)</span>
+          <span><span class="legend-dot" style="background:#3b82f6"></span>NAND 512Gb TLC ($)</span>
+        </div>
+      </div>
+      <div class="chart-box"><canvas id="spotChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- RETAIL MODULES -->
+<section id="retail">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-title">02 · Retail modules</div>
+        <h2 class="section-h">Consumer DDR5 / DDR4 kits, April 2026</h2>
+        <p class="section-sub">Lowest mainstream retail prices tracked by Tom's Hardware. Compared against each kit's all-time low to visualize the supercycle.</p>
+      </div>
     </div>
 
-    <h2><span class="section-number">2.</span>Current Spot Prices</h2>
-    <p class="timestamp">
-        <strong>Data Source:</strong> DRAMeXchange (TrendForce) |
-        <strong>Session:</strong> DXI April 16, 2026, 18:00 Taipei (UTC+8) |
-        <strong>Last Updated:</strong> April 18, 2026 |
-        <a href="https://www.dramexchange.com/" target="_blank" style="font-size: 9pt;">Verify at Source →</a>
-    </p>
-    <p class="note"><strong>Reliability Note:</strong> Prices represent actual trading session averages. Products with no volume in a session carry forward the previous close and are marked with an asterisk (*). All price changes greater than 15% trigger manual verification before publication.</p>
-
-    <h3>2.1 DDR5 (5th Generation)</h3>
-
-    <table>
+    <div class="table-wrap">
+      <table class="table">
         <thead>
-            <tr>
-                <th>Product</th>
-                <th>Type</th>
-                <th class="numeric">Session Avg</th>
-                <th class="numeric">Range</th>
-                <th class="numeric">Change</th>
-            </tr>
+          <tr>
+            <th>Kit</th>
+            <th>Capacity</th>
+            <th>Speed</th>
+            <th>Apr 2026</th>
+            <th>All-time low</th>
+            <th>Premium</th>
+          </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>DDR5 8Gb (1Gx8) 4800/5600</td>
-                <td>Chip</td>
-                <td class="numeric">$18.50</td>
-                <td class="numeric">$15.20 – $22.80</td>
-                <td class="numeric">+0.27%</td>
-            </tr>
-            <tr>
-                <td>DDR5 16Gb (2Gx8) 4800/5600</td>
-                <td>Chip</td>
-                <td class="numeric">$37.83</td>
-                <td class="numeric">$28.00 – $49.50</td>
-                <td class="numeric">+0.35%</td>
-            </tr>
-            <tr>
-                <td>DDR5 16Gb eTT</td>
-                <td>Chip</td>
-                <td class="numeric">$21.50</td>
-                <td class="numeric">$20.60 – $24.00</td>
-                <td class="numeric">0.00%</td>
-            </tr>
-            <tr>
-                <td>DDR5 32Gb (4Gx8) 4800/5600</td>
-                <td>Chip</td>
-                <td class="numeric">$78.20</td>
-                <td class="numeric">$65.00 – $95.00</td>
-                <td class="numeric">-1.15%</td>
-            </tr>
-            <tr>
-                <td>DDR5 UDIMM 16GB 4800/5600</td>
-                <td>Module (Desktop)</td>
-                <td class="numeric">$222.50</td>
-                <td class="numeric">$200.00 – $240.00</td>
-                <td class="numeric">-8.25%</td>
-            </tr>
-            <tr>
-                <td>DDR5 UDIMM 32GB 4800/5600</td>
-                <td>Module (Desktop)</td>
-                <td class="numeric">$445.00</td>
-                <td class="numeric">$395.00 – $520.00</td>
-                <td class="numeric">-2.20%</td>
-            </tr>
-            <tr>
-                <td>DDR5 RDIMM 32GB 4800/5600</td>
-                <td>Module (Server)</td>
-                <td class="numeric">$930.00</td>
-                <td class="numeric">$880.00 – $1,150.00</td>
-                <td class="numeric">-0.54%</td>
-            </tr>
+          <tr><td>Corsair Vengeance RGB DDR5</td><td>16 GB</td><td>5200 CL40</td><td>$219</td><td>$65</td><td class="qoq-big">+237%</td></tr>
+          <tr><td>TeamGroup T-Force Vulcan DDR5</td><td>16 GB</td><td>6000 CL38</td><td>$239</td><td>$197</td><td class="qoq-big">+21%</td></tr>
+          <tr><td>Corsair Vengeance RGB DDR5</td><td>32 GB</td><td>6000</td><td>$439</td><td>$87</td><td class="qoq-big">+405%</td></tr>
+          <tr><td>Patriot Viper Venom DDR5</td><td>64 GB</td><td>6000 CL32</td><td>$699</td><td>$139</td><td class="qoq-big">+403%</td></tr>
+          <tr><td>Corsair Vengeance DDR5</td><td>128 GB</td><td>6400 CL42</td><td>$1,690</td><td>$329</td><td class="qoq-big">+414%</td></tr>
+          <tr><td>TeamGroup T-Create DDR4</td><td>16 GB</td><td>3600 CL18</td><td>$132</td><td>$28</td><td class="qoq-big">+371%</td></tr>
+          <tr><td>Silicon Power Gaming DDR4</td><td>32 GB</td><td>3200</td><td>$199</td><td>$49</td><td class="qoq-big">+306%</td></tr>
+          <tr><td>Crucial Pro DDR4</td><td>64 GB</td><td>3200</td><td>$449</td><td>$85</td><td class="qoq-big">+428%</td></tr>
         </tbody>
-    </table>
+      </table>
+    </div>
+    <p style="color:var(--muted); font-size:12px; margin-top:10px; font-family:var(--mono);">Source: Tom's Hardware RAM Price Index, retrieved 2026-04-18.</p>
+  </div>
+</section>
 
-    <h3>2.2 DDR4 (4th Generation)</h3>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Type</th>
-                <th class="numeric">Session Avg</th>
-                <th class="numeric">Range</th>
-                <th class="numeric">Change</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>DDR4 16Gb (2Gx8) 3200</td>
-                <td>Chip</td>
-                <td class="numeric">$69.18</td>
-                <td class="numeric">$29.00 – $87.50</td>
-                <td class="numeric">-0.39%</td>
-            </tr>
-            <tr>
-                <td>DDR4 16Gb eTT</td>
-                <td>Chip</td>
-                <td class="numeric">$13.48</td>
-                <td class="numeric">$13.00 – $14.70</td>
-                <td class="numeric">0.00%</td>
-            </tr>
-            <tr>
-                <td>DDR4 8Gb (1Gx8) 3200</td>
-                <td>Chip</td>
-                <td class="numeric">$33.00</td>
-                <td class="numeric">$14.50 – $50.00</td>
-                <td class="numeric">-0.30%</td>
-            </tr>
-            <tr>
-                <td>DDR4 8Gb eTT</td>
-                <td>Chip</td>
-                <td class="numeric">$6.43</td>
-                <td class="numeric">$5.20 – $7.30</td>
-                <td class="numeric">-0.92%</td>
-            </tr>
-            <tr>
-                <td>DDR4 UDIMM 16GB 3200</td>
-                <td>Module (Desktop)</td>
-                <td class="numeric">$149.33</td>
-                <td class="numeric">$134.00 – $171.00</td>
-                <td class="numeric">-0.45%</td>
-            </tr>
-            <tr>
-                <td>DDR4 16GB SO-DIMM</td>
-                <td>Module (Laptop)</td>
-                <td class="numeric">$165.00</td>
-                <td class="numeric">$130.00 – $175.00</td>
-                <td class="numeric">—</td>
-            </tr>
-            <tr>
-                <td>DDR4 8GB SO-DIMM</td>
-                <td>Module (Laptop)</td>
-                <td class="numeric">$85.00</td>
-                <td class="numeric">$70.50 – $92.00</td>
-                <td class="numeric">—</td>
-            </tr>
-            <tr>
-                <td>DDR4 UDIMM 32GB 3200</td>
-                <td>Module (Desktop)</td>
-                <td class="numeric">$295.00</td>
-                <td class="numeric">$265.00 – $340.00</td>
-                <td class="numeric">-0.85%</td>
-            </tr>
-            <tr>
-                <td>DDR4 RDIMM 32GB 3200</td>
-                <td>Module (Server)</td>
-                <td class="numeric">$385.00</td>
-                <td class="numeric">$345.00 – $440.00</td>
-                <td class="numeric">-1.20%</td>
-            </tr>
-            <tr>
-                <td>DDR4 RDIMM 64GB 3200</td>
-                <td>Module (Server)</td>
-                <td class="numeric">$780.00</td>
-                <td class="numeric">$695.00 – $895.00</td>
-                <td class="numeric">-1.55%</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h3>2.3 DDR3 (3rd Generation)</h3>
-    <p class="timestamp">Source: DRAMeXchange | Classification: Legacy Product</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Type</th>
-                <th class="numeric">Session Avg</th>
-                <th class="numeric">Range</th>
-                <th class="numeric">Change</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>DDR3 4Gb 512Mx8 1600/1866</td>
-                <td>Chip</td>
-                <td class="numeric">$8.03</td>
-                <td class="numeric">$5.30 – $10.10</td>
-                <td class="numeric">+0.63%</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h3>2.4 GDDR (Graphics DDR)</h3>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Type</th>
-                <th class="numeric">Session Avg</th>
-                <th class="numeric">Range</th>
-                <th class="numeric">Change</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>GDDR6 8Gb</td>
-                <td>Graphics Chip</td>
-                <td class="numeric">$12.41</td>
-                <td class="numeric">$9.50 – $20.00</td>
-                <td class="numeric">-2.35%</td>
-            </tr>
-            <tr>
-                <td>GDDR5 8Gb</td>
-                <td>Graphics Chip</td>
-                <td class="numeric">$12.32</td>
-                <td class="numeric">$10.00 – $20.00</td>
-                <td class="numeric">-1.67%</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h3>2.5 NAND Flash</h3>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Type</th>
-                <th class="numeric">Session Avg</th>
-                <th class="numeric">Range</th>
-                <th class="numeric">Change</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>512Gb TLC</td>
-                <td>NAND Flash</td>
-                <td class="numeric">$21.68</td>
-                <td class="numeric">$17.00 – $23.50</td>
-                <td class="numeric">-2.15%</td>
-            </tr>
-            <tr>
-                <td>256Gb TLC</td>
-                <td>NAND Flash</td>
-                <td class="numeric">$10.92</td>
-                <td class="numeric">$8.00 – $11.80</td>
-                <td class="numeric">0.00%</td>
-            </tr>
-            <tr>
-                <td>128Gb TLC</td>
-                <td>NAND Flash</td>
-                <td class="numeric">$6.83</td>
-                <td class="numeric">$5.00 – $9.50</td>
-                <td class="numeric">0.00%</td>
-            </tr>
-            <tr>
-                <td>MLC 64Gb 8GBx8</td>
-                <td>NAND MLC</td>
-                <td class="numeric">$15.00</td>
-                <td class="numeric">$12.00 – $20.00</td>
-                <td class="numeric">+14.29%</td>
-            </tr>
-            <tr>
-                <td>MLC 32Gb 4GBx8</td>
-                <td>NAND MLC</td>
-                <td class="numeric">$8.67</td>
-                <td class="numeric">$8.00 – $9.50</td>
-                <td class="numeric">+12.56%</td>
-            </tr>
-            <tr>
-                <td>SLC 2Gb 256MBx8</td>
-                <td>NAND SLC</td>
-                <td class="numeric">$3.41</td>
-                <td class="numeric">$3.00 – $4.20</td>
-                <td class="numeric">+10.42%</td>
-            </tr>
-            <tr>
-                <td>SLC 1Gb 128MBx8</td>
-                <td>NAND SLC</td>
-                <td class="numeric">$2.87</td>
-                <td class="numeric">$2.50 – $3.50</td>
-                <td class="numeric">+11.35%</td>
-            </tr>
-            <tr>
-                <td>NAND 128Gb 16Gx8 MLC</td>
-                <td>NAND MLC</td>
-                <td class="numeric">$12.67</td>
-                <td class="numeric">$12.55 – $12.75</td>
-                <td class="numeric">+33.91%</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h2><span class="section-number">3.</span>Price Comparison Across Generations</h2>
-    <p class="timestamp">Source: DRAMeXchange | Prices as of April 17, 2026</p>
-
-    <div class="chart-container">
-        <div class="chart-title">Figure 2. DRAM Chip Prices by Generation (per 16Gb equivalent)</div>
-        <div class="chart bar-chart" id="priceComparisonChart"></div>
-        <div class="chart-caption"><strong>Market Type:</strong> Chip-level spot prices (raw components). <strong>Note:</strong> DDR3 price scaled to 16Gb equivalent for comparison. <strong>Price Inversion Alert:</strong> DDR4 ($69.18) > DDR5 ($37.83) reflects the "AI Tax" — manufacturers shifted capacity to HBM and DDR5, creating severe DDR4 chip supply constraints. Compare with Figure 1 where DDR5 modules cost more (normal pricing) vs Figure 2 where DDR4 chips cost more (supply anomaly).</div>
+<!-- CONTRACT -->
+<section id="contract">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-title">03 · Contract market</div>
+        <h2 class="section-h">Q1 2026 contract hikes — Samsung &amp; SK hynix</h2>
+        <p class="section-sub">Hyperscaler DRAM contracts renegotiated with unprecedented QoQ increases. Google, Microsoft, Amazon, Apple, Dell reported to be in the queue.</p>
+      </div>
     </div>
 
-    <div class="abstract">
-        <h3>Understanding Price Differences Across Market Levels</h3>
-        <p><strong>Why do prices seem contradictory?</strong> The memory market has three distinct pricing tiers, each with different dynamics:</p>
-        <ul style="margin-top: 10px; margin-bottom: 10px;">
-            <li><strong>Chip-Level Spot Market (Figure 2):</strong> Raw component prices for traders. DDR4 > DDR5 due to AI-driven capacity shift to HBM.</li>
-            <li><strong>Module-Level Spot Market (Figure 1):</strong> Assembled memory sticks. DDR5 > DDR4 due to newer technology premium and manufacturing costs.</li>
-            <li><strong>Retail Market (Section 4):</strong> Consumer prices. Includes distribution, packaging, and brand premiums.</li>
+    <div class="two-col">
+      <div class="chart-panel">
+        <div class="chart-head"><div class="chart-title">Q1 2026 contract QoQ change</div></div>
+        <div class="chart-box" style="height:300px;"><canvas id="contractChart"></canvas></div>
+      </div>
+      <div class="chart-panel">
+        <div class="chart-head"><div class="chart-title">Who's buying</div></div>
+        <ul style="list-style:none; padding:8px 0; color:var(--muted); font-size:14px;">
+          <li style="padding:10px 0; border-bottom:1px solid var(--line);"><strong style="color:var(--text);">Microsoft</strong> — Azure capacity buildout</li>
+          <li style="padding:10px 0; border-bottom:1px solid var(--line);"><strong style="color:var(--text);">Google</strong> — TPU v7 (HBM3E) shipping 2026</li>
+          <li style="padding:10px 0; border-bottom:1px solid var(--line);"><strong style="color:var(--text);">Amazon</strong> — Trainium (HBM3E) 2026 ramp</li>
+          <li style="padding:10px 0; border-bottom:1px solid var(--line);"><strong style="color:var(--text);">Apple</strong> — on-device LLM footprint</li>
+          <li style="padding:10px 0;"><strong style="color:var(--text);">Dell, HPE, Supermicro</strong> — server OEM channel</li>
         </ul>
-        <p style="margin-bottom: 0;"><strong>Key Insight:</strong> The DDR4 > DDR5 inversion at chip level does NOT translate to modules because: (1) existing DDR4 module inventory was bought at lower prices, (2) DDR5 modules have additional manufacturing costs, and (3) retail channels haven't fully passed through chip price increases.</p>
+      </div>
     </div>
 
-    <h2><span class="section-number">4.</span>Buyer's Market: Actual Retail Prices</h2>
-    <p class="timestamp">Data as of April 18, 2026 | Source: Retail channels (Amazon, Newegg, Crucial, CDW)</p>
+    <div class="disclaimer" style="margin-top:20px;">
+      <strong>Note:</strong> Contract prices are negotiated bilaterally and not publicly disclosed in absolute terms. Percentage changes above are reported by TrendForce and industry press (Jan 2026). Absolute levels are not inferable without vendor data.
+    </div>
+  </div>
+</section>
 
-    <h3>4.1 Brand Price Comparison (16GB Module)</h3>
-    <p class="note">Actual prices buyers pay at retail. Per-GB calculations shown for value comparison.</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Brand</th>
-                <th>DDR4 16GB</th>
-                <th>DDR4 $/GB</th>
-                <th>DDR5 16GB</th>
-                <th>DDR5 $/GB</th>
-                <th>Source</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Crucial</strong> (Micron)</td>
-                <td class="numeric">$44.99</td>
-                <td class="numeric">$2.81</td>
-                <td class="numeric">$82.99</td>
-                <td class="numeric">$5.19</td>
-                <td>Crucial Direct</td>
-            </tr>
-            <tr>
-                <td><strong>G.Skill</strong></td>
-                <td class="numeric">$45.99</td>
-                <td class="numeric">$2.87</td>
-                <td class="numeric">$85.00</td>
-                <td class="numeric">$5.31</td>
-                <td>Micro Center</td>
-            </tr>
-            <tr>
-                <td><strong>SK hynix</strong></td>
-                <td class="numeric">$46.50</td>
-                <td class="numeric">$2.91</td>
-                <td class="numeric">$94.00</td>
-                <td class="numeric">$5.88</td>
-                <td>Amazon / OEMPCWorld</td>
-            </tr>
-            <tr>
-                <td><strong>Kingston</strong> (FURY)</td>
-                <td class="numeric">$47.99</td>
-                <td class="numeric">$3.00</td>
-                <td class="numeric">$87.99</td>
-                <td class="numeric">$5.50</td>
-                <td>Walmart / Amazon</td>
-            </tr>
-            <tr>
-                <td><strong>Samsung</strong> (OEM)</td>
-                <td class="numeric">$48.99</td>
-                <td class="numeric">$3.06</td>
-                <td class="numeric">$89.99</td>
-                <td class="numeric">$5.62</td>
-                <td>Newegg / Amazon</td>
-            </tr>
-            <tr>
-                <td><strong>Corsair</strong> (Vengeance)</td>
-                <td class="numeric">$49.99</td>
-                <td class="numeric">$3.12</td>
-                <td class="numeric">$92.99</td>
-                <td class="numeric">$5.81</td>
-                <td>Amazon / Newegg</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <p class="note"><strong>Buyer Insight:</strong> Crucial offers the best value for both DDR4 and DDR5. G.Skill provides competitive gaming-grade options. Premium brands (Corsair, SK hynix) command 10-15% higher prices.</p>
-
-    <h3>4.2 Channel Price Comparison (32GB Module)</h3>
-    <p class="note">Prices across different retail channels for the same capacity.</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Channel</th>
-                <th>DDR4 32GB</th>
-                <th>DDR4 $/GB</th>
-                <th>DDR5 32GB</th>
-                <th>DDR5 $/GB</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Amazon</strong></td>
-                <td class="numeric">$259.99</td>
-                <td class="numeric">$8.12</td>
-                <td class="numeric">$369.99</td>
-                <td class="numeric">$11.56</td>
-                <td>Corsair Vengeance</td>
-            </tr>
-            <tr>
-                <td><strong>Newegg</strong></td>
-                <td class="numeric">$245.00</td>
-                <td class="numeric">$7.66</td>
-                <td class="numeric">$355.00</td>
-                <td class="numeric">$11.09</td>
-                <td>Team / A-Tech</td>
-            </tr>
-            <tr>
-                <td><strong>Crucial Direct</strong></td>
-                <td class="numeric">$239.99</td>
-                <td class="numeric">$7.50</td>
-                <td class="numeric">$339.99</td>
-                <td class="numeric">$10.62</td>
-                <td>Manufacturer direct</td>
-            </tr>
-            <tr>
-                <td><strong>CDW</strong> (Enterprise)</td>
-                <td class="numeric">$278.44</td>
-                <td class="numeric">$8.70</td>
-                <td class="numeric">$375.00</td>
-                <td class="numeric">$11.72</td>
-                <td>RDIMM, server-grade</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <p class="note"><strong>Channel Insight:</strong> Manufacturer direct (Crucial) offers the best prices. Enterprise channels (CDW) charge 10-20% premium for server-grade RDIMM with ECC support.</p>
-
-    <h2><span class="section-number">5.</span>Historical Price Points</h2>
-    <p class="timestamp">Source: The Memory Guy (Objective Analysis) — InSpectrum Data — Article: "DRAM Prices Hit Historic Low" (November 20, 2019)</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th class="numeric">Price (per GB)</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>2012</td>
-                <td class="numeric">$2.88</td>
-                <td>Lowest price recorded in 2012</td>
-            </tr>
-            <tr>
-                <td>June 2016</td>
-                <td class="numeric">$2.62</td>
-                <td>Record low; matched in July 2019</td>
-            </tr>
-            <tr>
-                <td>July 2019</td>
-                <td class="numeric">$2.62</td>
-                <td>Matched June 2016 record</td>
-            </tr>
-            <tr>
-                <td>November 2019</td>
-                <td class="numeric">$2.59</td>
-                <td>Historic low (2006–2019 period); verified from InSpectrum</td>
-            </tr>
-            <tr>
-                <td>Q3 2019</td>
-                <td class="numeric">$2.60</td>
-                <td>SK hynix DRAM cost per GB (company financial report)</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="chart-container">
-        <div class="chart-title">Figure 3. Historical DRAM Price per Gigabyte (2015–2026)</div>
-        <div class="chart" id="historicalChart"></div>
-        <div class="chart-caption">Source: The Memory Guy (Objective Analysis), TrendForce, IC Insights, DRAMeXchange. Data verified April 18, 2026. Quarterly frequency 2025-2026.</div>
+<!-- HBM -->
+<section id="hbm">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-title">04 · HBM · The bottleneck</div>
+        <h2 class="section-h">HBM3E +20% for 2026 · HBM4 fully allocated</h2>
+        <p class="section-sub">Suppliers reallocated ~3× wafer capacity to HBM. Every NVIDIA H200 needs 6 stacks of HBM3E; every B200 needs 8. Micron has pre-sold its entire 2026 HBM output.</p>
+      </div>
     </div>
 
-    <p class="note"><strong>Historical context (2015–2026):</strong> The past decade has seen two complete memory cycles. The 2017-2018 super-cycle was driven by cryptocurrency mining and data center expansion. The 2019 crash resulted from massive oversupply. The 2023 bottom marked the end of the post-COVID correction. The 2025-2026 surge represents the first "AI-driven" memory cycle, with manufacturers reallocating capacity to HBM and server DDR5, creating severe supply constraints for standard DRAM. Q1 2026 recorded a historic 90-95% quarterly increase—the largest on record. All prices shown are verified actuals; no forecasts included.</p>
+    <div class="ticker-grid">
+      <div class="ticker">
+        <div class="ticker-label">HBM3E supply price <span class="badge badge-verified">VERIFIED</span></div>
+        <div class="ticker-value">+20%</div>
+        <div class="ticker-change"><span class="change-pos">2026 vs 2025</span></div>
+        <div class="ticker-note">Samsung &amp; SK hynix, reported Dec 2025</div>
+      </div>
+      <div class="ticker">
+        <div class="ticker-label">HBM4 2026 supply <span class="badge badge-verified">VERIFIED</span></div>
+        <div class="ticker-value">Sold out</div>
+        <div class="ticker-change"><span style="color:var(--muted)">Micron full-year booked</span></div>
+        <div class="ticker-note">Pricing + volume locked calendar 2026</div>
+      </div>
+      <div class="ticker">
+        <div class="ticker-label">HBM3E per H200 GPU <span class="badge badge-verified">VERIFIED</span></div>
+        <div class="ticker-value">6<span class="ticker-unit">stacks</span></div>
+        <div class="ticker-change"><span class="change-pos">China H200 orders ~$3B since Dec 2025</span></div>
+      </div>
+      <div class="ticker">
+        <div class="ticker-label">NVIDIA → Samsung HBM4 <span class="badge badge-estimate">ESTIMATE</span></div>
+        <div class="ticker-value">~2×</div>
+        <div class="ticker-change"><span class="change-pos">HBM3E price paid</span></div>
+        <div class="ticker-note">Press reports, NotebookCheck · unconfirmed absolute</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <p class="note"><strong>2019 Price collapse:</strong> DRAM spot prices declined from $6.10/GB (early 2019) to $2.59/GB (November 2019), a 57.5% decline over the year.</p>
-
-    <h2><span class="section-number">6.</span>Market Forecasts (TrendForce)</h2>
-    <p class="timestamp">Source: TrendForce Market Research | Report Date: February 2, 2026 | Classification: Projections</p>
-
-    <div class="chart-container">
-        <div class="chart-title">Figure 4. Contract Price Forecast QoQ Changes</div>
-        <div class="chart bar-chart" id="forecastChart"></div>
-        <div class="chart-caption">Source: TrendForce Press Center, February 2, 2026</div>
+<!-- HISTORY -->
+<section id="history">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-title">05 · Long arc</div>
+        <h2 class="section-h">DRAM $/GB, 2012 → 2026</h2>
+        <p class="section-sub">Secular deflation (~33-36%/yr for two decades) reversed in 2025. The current cycle has broken every prior peak.</p>
+      </div>
     </div>
 
-    <p class="note"><strong>Market Context (Q1 2026 Revision):</strong> The quarter-over-quarter increase for conventional DRAM contract prices was revised upward from 55–60% to 90–95%. This revision represents the largest upward adjustment in TrendForce's memory market forecasting history.</p>
-
-    <p class="note"><strong>Q2 2026 Update:</strong> Verified March 31, 2026 — AI server demand drives continued price increases. CSPs securing supply via long-term agreements (LTAs). URL: <a href="https://www.trendforce.com/presscenter/news/20260331-11855.html" target="_blank">TrendForce Q2 2026 Forecast</a></p>
-
-    <table class="forecast-table">
-        <tbody>
-            <tr>
-                <td colspan="3"><strong>Q1 2026 (Revised Forecast — February 2026)</strong></td>
-            </tr>
-            <tr>
-                <td>Conventional DRAM Contract</td>
-                <td class="numeric">+90–95% QoQ</td>
-                <td>Revised from +55–60%</td>
-            </tr>
-            <tr>
-                <td>PC DRAM Blended ASP</td>
-                <td class="numeric">+110–115% QoQ</td>
-                <td>Revised from +50–55%</td>
-            </tr>
-            <tr>
-                <td>NAND Flash Contract</td>
-                <td class="numeric">+55–60% QoQ</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Enterprise SSD</td>
-                <td class="numeric">+53–58% QoQ</td>
-                <td>Supply constraints across memory manufacturers</td>
-            </tr>
-            <tr>
-                <td colspan="3"><strong>Q2 2026 (Forecast)</strong></td>
-            </tr>
-            <tr>
-                <td>Conventional DRAM Contract</td>
-                <td class="numeric">+58–63% QoQ</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>NAND Flash Contract</td>
-                <td class="numeric">+70–75% QoQ</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Consumer DRAM Contract</td>
-                <td class="numeric">+45–50% QoQ</td>
-                <td>Supply constraints; CSP demand via LTAs</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <p class="note"><strong>Analyst Consensus:</strong> Gartner, IDC, and TrendForce project that RAM prices will not decline in 2026. Memory supply growth is projected at 16% year-over-year, below historical norms.</p>
-
-    <div class="warning-box">
-        <h3>Disclaimer</h3>
-        <p>Forecasts are based on TrendForce market research and reflect expected trends. Actual results may differ due to changes in supply/demand dynamics, geopolitical factors, or technological shifts. This index is for informational purposes only and does not constitute financial or investment advice.</p>
+    <div class="chart-panel">
+      <div class="chart-head">
+        <div class="chart-title">DRAM mainstream $ / GB · verified anchor points + cycle peaks</div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#3b82f6"></span>Verified (Memory Guy / TrendForce prints)</span>
+          <span><span class="legend-dot" style="background:#a855f7"></span>Estimated / interpolated</span>
+        </div>
+      </div>
+      <div class="chart-box" style="height:420px;"><canvas id="historyChart"></canvas></div>
     </div>
 
-    <h2><span class="section-number">7.</span>Data Sources and Verification</h2>
+    <div class="callouts" style="margin-top:24px;">
+      <div class="callout">
+        <div class="year">2017–2018</div>
+        <h4>Previous peak</h4>
+        <p>Mobile + server upgrade cycle pushed mainstream DRAM to ~$8/GB. Cycle broke in 2019 as supply caught up.</p>
+      </div>
+      <div class="callout">
+        <div class="year">2020–2021</div>
+        <h4>COVID digital buildout</h4>
+        <p>PC / datacenter demand spike; prices recovered from 2019 trough to a secondary peak before easing in 2022.</p>
+      </div>
+      <div class="callout">
+        <div class="year">2023 Q3</div>
+        <h4>Cycle trough</h4>
+        <p>Inventory correction bottom. TrendForce called the turn; suppliers began HBM capacity reallocation.</p>
+      </div>
+      <div class="callout">
+        <div class="year">2025 Q4</div>
+        <h4>Supercycle breakout</h4>
+        <p>DRAM spot nearly tripled YoY (+187% by Sep 9). 32 GB DDR5 kit: $100–200 (Oct 2025) → $350+.</p>
+      </div>
+      <div class="callout">
+        <div class="year">2026 Q1</div>
+        <h4>Contracts catch up</h4>
+        <p>Server DRAM contracts +60–70% QoQ. Conventional DRAM +55–60%. HBM3E +20% for full year.</p>
+      </div>
+      <div class="callout">
+        <div class="year">2026 Q2</div>
+        <h4>Current · spot softens</h4>
+        <p>Retail pullback as end-demand flinches at headline prices. Contracts still climb. Divergence to watch.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <h3>7.1 Primary Sources</h3>
-
-    <p><span class="verified">DRAMeXchange (TrendForce)</span> — <a href="https://www.dramexchange.com/" target="_blank">dramexchange.com</a></p>
-    <ul>
-        <li>Type: Real-time spot and contract prices</li>
-        <li>Update Frequency: Daily (chips), Weekly (modules)</li>
-        <li>Access: Public (limited), Membership (full historical)</li>
-        <li>Products Covered: DDR3, DDR4, DDR5, GDDR, NAND Flash</li>
-        <li>Verification: Direct web scrape, April 17, 2026; Re-verified April 18, 2026</li>
-        <li>Latest Data Session: DXI Apr.16, 18:00 (GMT+8)</li>
-    </ul>
-
-    <p><span class="verified">The Memory Guy (Objective Analysis)</span> — <a href="https://thememoryguy.com/" target="_blank">thememoryguy.com</a></p>
-    <ul>
-        <li>Type: Market analysis and historical price tracking</li>
-        <li>Data Provider: InSpectrum (spot-price source)</li>
-        <li>Access: Public blog articles</li>
-        <li>Historical Coverage: DRAM prices from 2006–present</li>
-        <li>Key Article: "DRAM Prices Hit Historic Low" (November 20, 2019)</li>
-        <li>Additional Data: WSTS (World Semiconductor Trade Statistics) 1991–2019</li>
-        <li>Company Cost Reference: SK hynix Q3 2019 DRAM cost ~$2.60/GB</li>
-    </ul>
-
-    <p><span class="verified">TrendForce</span> — <a href="https://www.trendforce.com/" target="_blank">trendforce.com</a></p>
-    <ul>
-        <li>Type: Market research and price forecasting</li>
-        <li>Update Frequency: Monthly reports, quarterly forecasts</li>
-        <li>Access: Free summaries, Paid subscriptions for full reports</li>
-        <li>Products Covered: DRAM, NAND Flash, SSD, Mobile DRAM</li>
-        <li>Latest Report: "Memory Price Outlook for 1Q26 Sharply Upgraded" (February 2, 2026)</li>
-        <li>Verification: Industry-standard research firm; consensus with Gartner, IDC</li>
-    </ul>
-
-    <h3>7.2 Additional Research Sources</h3>
-
-    <p><span class="verified">Omdia</span> — <a href="https://omdia.tech.informa.com/" target="_blank">omdia.tech.informa.com</a></p>
-    <ul>
-        <li>Type: Technology research and advisory (Informa Tech)</li>
-        <li>Key Reports: "DRAM Market Dynamics" (monthly), NAND Memory Intelligence Service</li>
-        <li>Recent Finding: Global PC shipments to decline 12% in 2026 due to memory supply challenges</li>
-        <li>Access: Paid subscriptions; press releases available publicly</li>
-        <li>URL: <a href="https://omdia.tech.informa.com/OM144540/DRAM-Market-Dynamics--April-2026" target="_blank">April 2026 DRAM Analysis</a></li>
-    </ul>
-
-    <p><span class="verified">Yole Group</span> — <a href="https://www.yolegroup.com/" target="_blank">yolegroup.com</a></p>
-    <ul>
-        <li>Type: Semiconductor market research and strategy consulting</li>
-        <li>Key Report: "Status of the Memory Industry 2025" (June 2025)</li>
-        <li>Forecast: Global memory revenue to reach $200B in 2025; $400B by 2027 (AI-driven)</li>
-        <li>HBM Focus: HBM revenue expected to nearly double to ~$34B in 2025</li>
-        <li>URL: <a href="https://www.yolegroup.com/product/report/status-of-the-memory-industry-2025/" target="_blank">Memory Industry Report</a></li>
-    </ul>
-
-    <p><span class="verified">SEMI</span> — <a href="https://www.semi.org/" target="_blank">semi.org</a></p>
-    <ul>
-        <li>Type: Global industry association for electronics manufacturing supply chain</li>
-        <li>Recent Report: 300mm fab equipment spending to increase 18% to $133B in 2026</li>
-        <li>Memory Outlook: DRAM equipment spending projected at $111B cumulative (2027-2029)</li>
-        <li>Access: Members receive discounts; reports available for purchase</li>
-        <li>URL: <a href="https://www.semi.org/" target="_blank">SEMI Market Research</a></li>
-    </ul>
-
-    <p><span class="verified">WSTS (World Semiconductor Trade Statistics)</span> — <a href="https://www.wsts.org/" target="_blank">wsts.org</a></p>
-    <ul>
-        <li>Type: Industry-run semiconductor market statistics organization</li>
-        <li>Data: Forecasts based on member company data (covers most global semiconductor manufacturers)</li>
-        <li>Historical Coverage: Comprehensive market data by product category and region</li>
-        <li>Access: Subscription-based; summaries available via press releases</li>
-    </ul>
-
-    <p><span class="verified">Gartner</span> — <a href="https://www.gartner.com/" target="_blank">gartner.com</a></p>
-    <ul>
-        <li>Type: Global research and advisory for technology industries</li>
-        <li>Coverage: Semiconductor market forecasts, DRAM/NAND revenue projections, AI impact analysis</li>
-        <li>Access: High-level insights via press releases; detailed reports require paid subscription</li>
-    </ul>
-
-    <p><span class="verified">IDC (International Data Corporation)</span> — <a href="https://www.idc.com/" target="_blank">idc.com</a></p>
-    <ul>
-        <li>Type: Market intelligence for information technology and telecommunications</li>
-        <li>Services: "Enabling Technologies: DRAM and NAND Memory" subscription</li>
-        <li>Data: Vendor market shares, price forecasts, bit demand by application</li>
-        <li>Reports: "Worldwide NAND Flash Market Shares" published quarterly</li>
-    </ul>
-
-    <h3>6.3 Industry News and Price Tracking</h3>
-
-    <p><span class="verified">DigiTimes</span> — <a href="https://www.digitimes.com/" target="_blank">digitimes.com</a></p>
-    <ul>
-        <li>Type: Technology industry news (Asia-focused)</li>
-        <li>Recent Coverage: Memory surge impacting smartphone shipments (April 2026)</li>
-        <li>Key Finding: DDR4 16Gb spot prices up 2,200% YoY before April 2026 decline</li>
-        <li>Access: Free articles with registration; premium subscription available</li>
-    </ul>
-
-    <p><span class="verified">Tom's Hardware</span> — <a href="https://www.tomshardware.com/" target="_blank">tomshardware.com</a></p>
-    <ul>
-        <li>Type: Consumer technology hardware reviews and price tracking</li>
-        <li>Feature: RAM Price Tracker (updated regularly with US market prices)</li>
-        <li>Access: Free public resource</li>
-        <li>URL: <a href="https://www.tomshardware.com/pc-components/dram/ram-price-tracking" target="_blank">RAM Price Tracker</a></li>
-    </ul>
-
-    <p><span class="verified">Sourceability</span> — <a href="https://sourceability.com/" target="_blank">sourceability.com</a></p>
-    <ul>
-        <li>Type: Electronic component marketplace and distributor</li>
-        <li>Content: Memory price analysis and timeline tracking for 2026</li>
-        <li>Access: Free blog content; component sourcing via platform</li>
-        <li>URL: <a href="https://sourceability.com/blog/memory-price-increase-timeline-qoq-in-2026" target="_blank">2026 Price Analysis</a></li>
-    </ul>
-
-    <h3>7.3 Historical Data References</h3>
-
-    <p><span class="verified">AI Impacts</span> — <a href="https://aiimpacts.org/" target="_blank">aiimpacts.org</a></p>
-    <ul>
-        <li>Article: "Trends in DRAM Price Per Gigabyte" (April 14, 2020)</li>
-        <li>Source Data: John C. McCallum historical dataset + Objective Analysis</li>
-        <li>Key Finding: DRAM prices historically fall by factor of 10 every 5-6 years</li>
-        <li>Access: Free public research</li>
-        <li>URL: <a href="https://aiimpacts.org/trends-in-dram-price-per-gigabyte/" target="_blank">Historical Price Trends</a></li>
-    </ul>
-
-    <p><span class="verified">Silicon Data</span> — <a href="https://www.silicondata.com/" target="_blank">silicondata.com</a></p>
-    <ul>
-        <li>Index: GDDR6 Spot Price Index (graphics memory specialization)</li>
-        <li>Access: Free market index tracking</li>
-        <li>URL: <a href="https://www.silicondata.com/ram-index-gddr6" target="_blank">GDDR6 Index</a></li>
-    </ul>
-
-    <h2><span class="section-number">8.</span>Methodology and Data Quality</h2>
-
-    <div class="methodology">
-        <h3>8.1 Data Collection Protocol</h3>
-        <p><strong>Primary Source:</strong> DRAMeXchange (TrendForce) — the leading spot market for memory components in Asia.</p>
-        <p><strong>Collection Method:</strong> Automated data extraction during the daily session close (18:00 Taipei/UTC+8). The process extracts:</p>
-        <ul>
-            <li><strong>Session Average:</strong> The weighted average price of all executed trades during the session</li>
-            <li><strong>Daily Range:</strong> High and low prices traded during the session</li>
-            <li><strong>Percentage Change:</strong> Change relative to the previous session close</li>
-            <li><strong>Volume Status:</strong> Whether the product had active trading or carried forward a stale price</li>
-        </ul>
-
-        <h3>7.2 Data Verification Chain</h3>
-        <p><strong>Step 1 — Ingestion Validation:</strong></p>
-        <ul>
-            <li>Null or zero values are rejected; previous close is carried forward with asterisk (*) notation</li>
-            <li>Single-session price changes exceeding 15% trigger manual review before publication</li>
-            <li>DOM structure changes in source website trigger scrape failure alerts</li>
-        </ul>
-
-        <p><strong>Step 2 — Cross-Verification:</strong></p>
-        <ul>
-            <li>Spot trends are compared against TrendForce monthly contract price reports</li>
-            <li>Retail price movements (PCPartPicker, Amazon) are monitored as lagging indicators</li>
-            <li>Analyst consensus (Gartner, IDC, Omdia) is referenced for directional validation</li>
-        </ul>
-
-        <p><strong>Step 3 — Publication:</strong></p>
-        <ul>
-            <li>All prices are timestamped with session date, time, and timezone</li>
-            <li>Direct source links are provided for user verification</li>
-            <li>Data modification log records all corrections with rationale and timestamp</li>
-        </ul>
-
-        <h3>8.3 Historical Data Standards</h3>
-        <p>Historical price points are verified from The Memory Guy's published analysis, which sources data from InSpectrum (a primary spot-price data provider). These represent <strong>actual recorded spot prices per gigabyte</strong> for branded DRAM products.</p>
-        <p><strong>Data Integrity Policy:</strong> Interpolated, estimated, or modeled historical data is not included in this index without explicit disclosure. Historical lows are cross-referenced against WSTS (World Semiconductor Trade Statistics) 28-year dataset to verify cyclical context.</p>
-
-        <h3>8.4 Known Limitations</h3>
-        <ul>
-            <li><strong>Spot vs. Contract:</strong> Spot prices represent ~10% of global memory trading (mostly surplus). Contract prices (negotiated quarterly by Apple, Dell, HP) represent ~90% and are not publicly available in real-time.</li>
-            <li><strong>Historical Coverage:</strong> Continuous time-series data requires paid subscriptions to market research services. Public sources provide sporadic historical points.</li>
-            <li><strong>Product Scope:</strong> Currently covers DRAM spot market. NAND Flash, HBM, LPDDR, and contract pricing are planned additions.</li>
-            <li><strong>Regional Variations:</strong> Prices reflect Asia spot market; regional variations (US, Europe) are not reflected.</li>
-            <li><strong>Component vs. Module:</strong> Displayed chip prices do not include manufacturing, testing, packaging, or distribution costs for finished modules.</li>
-        </ul>
-
-        <h3>8.5 Use as Perpetual Futures Benchmark</h3>
-        <p>This index is designed to serve as an underlying reference for cash-settled perpetual futures contracts on memory products. The spot prices of DRAM and NAND Flash components represent the raw input costs for memory manufacturers and datacenter operators. For trading purposes, verify all data with primary sources and understand the distinction between spot and contract pricing.</p>
-
-        <h3>8.6 Data Citation</h3>
-        <p>When citing data from this index, please include: <em>"Source: Memory Price Index, Agentic Sciences. Primary data: DRAMeXchange (TrendForce)."</em></p>
+<!-- METHOD -->
+<section id="sources">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-title">06 · Methodology &amp; sources</div>
+        <h2 class="section-h">How we compile this index</h2>
+        <p class="section-sub">Every datapoint is tagged <span class="badge badge-verified">VERIFIED</span> if it comes from a public print with a known date, or <span class="badge badge-estimate">ESTIMATE</span> if interpolated or derived from reporting without an absolute figure.</p>
+      </div>
     </div>
 
-    <footer>
-        <p><strong>Memory Price Index</strong></p>
-        <p>Last Updated: April 18, 2026 | All prices in USD</p>
-        <p style="margin-top: 12pt;">
-            <a href="https://github.com/AgenticSciences/memory-price-tracker" target="_blank">github.com/AgenticSciences/memory-price-tracker</a>
-        </p>
-        <p style="margin-top: 12pt;">Agentic Sciences</p>
-    </footer>
+    <div class="sources">
+      <div class="source">
+        <div class="source-name">TrendForce DRAMeXchange</div>
+        <div class="source-desc">Weekly spot chip prices (DDR4, DDR5, NAND wafers). Primary source for spot.</div>
+        <a href="https://www.trendforce.com/price/dram/dram_spot" target="_blank" rel="noopener">trendforce.com/price</a>
+      </div>
+      <div class="source">
+        <div class="source-name">TrendForce Press</div>
+        <div class="source-desc">Contract QoQ forecasts, server DRAM hike reporting, HBM3E pricing intel.</div>
+        <a href="https://www.trendforce.com/news" target="_blank" rel="noopener">trendforce.com/news</a>
+      </div>
+      <div class="source">
+        <div class="source-name">Tom's Hardware RAM Index</div>
+        <div class="source-desc">Retail module prices across DDR4/DDR5 kits, daily lowest-price tracking.</div>
+        <a href="https://www.tomshardware.com/pc-components/ram/ram-price-index-2026-lowest-price-on-ddr5-and-ddr4-memory-of-all-capacities" target="_blank" rel="noopener">tomshardware.com</a>
+      </div>
+      <div class="source">
+        <div class="source-name">The Memory Guy (Jim Handy)</div>
+        <div class="source-desc">Historical $/GB anchor points 2012, 2016, 2019. InSpectrum-sourced.</div>
+        <a href="https://thememoryguy.com/" target="_blank" rel="noopener">thememoryguy.com</a>
+      </div>
+      <div class="source">
+        <div class="source-name">Digitimes · Seeking Alpha</div>
+        <div class="source-desc">HBM3E 20% hike confirmation (Dec 2025), HBM4 NVIDIA supply reports.</div>
+        <a href="https://www.digitimes.com/" target="_blank" rel="noopener">digitimes.com</a>
+      </div>
+      <div class="source">
+        <div class="source-name">Sourceability · QoQ ledger</div>
+        <div class="source-desc">Cross-reference for contract QoQ memory increases by quarter.</div>
+        <a href="https://sourceability.com/post/tracking-memory-price-increases-across-the-last-several-quarters" target="_blank" rel="noopener">sourceability.com</a>
+      </div>
+    </div>
 
-    <script>
-        // Chart data - Extended time series (52 weeks)
-        const weeklyData = [
-            { week: 'Apr 28', ddr5udimm: 135, ddr5rdimm: 534, ddr4udimm: 101 },
-            { week: 'May 05', ddr5udimm: 138, ddr5rdimm: 541, ddr4udimm: 103 },
-            { week: 'May 12', ddr5udimm: 142, ddr5rdimm: 548, ddr4udimm: 105 },
-            { week: 'May 19', ddr5udimm: 139, ddr5rdimm: 545, ddr4udimm: 104 },
-            { week: 'May 26', ddr5udimm: 136, ddr5rdimm: 539, ddr4udimm: 102 },
-            { week: 'Jun 02', ddr5udimm: 134, ddr5rdimm: 535, ddr4udimm: 100 },
-            { week: 'Jun 09', ddr5udimm: 131, ddr5rdimm: 530, ddr4udimm: 99 },
-            { week: 'Jun 16', ddr5udimm: 128, ddr5rdimm: 525, ddr4udimm: 98 },
-            { week: 'Jun 23', ddr5udimm: 125, ddr5rdimm: 520, ddr4udimm: 97 },
-            { week: 'Jun 30', ddr5udimm: 122, ddr5rdimm: 515, ddr4udimm: 96 },
-            { week: 'Jul 07', ddr5udimm: 118, ddr5rdimm: 510, ddr4udimm: 95 },
-            { week: 'Jul 14', ddr5udimm: 115, ddr5rdimm: 505, ddr4udimm: 94 },
-            { week: 'Jul 21', ddr5udimm: 113, ddr5rdimm: 502, ddr4udimm: 93 },
-            { week: 'Jul 28', ddr5udimm: 112, ddr5rdimm: 500, ddr4udimm: 92 },
-            { week: 'Aug 04', ddr5udimm: 114, ddr5rdimm: 505, ddr4udimm: 93 },
-            { week: 'Aug 11', ddr5udimm: 118, ddr5rdimm: 515, ddr4udimm: 95 },
-            { week: 'Aug 18', ddr5udimm: 122, ddr5rdimm: 525, ddr4udimm: 97 },
-            { week: 'Aug 25', ddr5udimm: 126, ddr5rdimm: 535, ddr4udimm: 99 },
-            { week: 'Sep 01', ddr5udimm: 130, ddr5rdimm: 545, ddr4udimm: 101 },
-            { week: 'Sep 08', ddr5udimm: 134, ddr5rdimm: 555, ddr4udimm: 103 },
-            { week: 'Sep 15', ddr5udimm: 138, ddr5rdimm: 565, ddr4udimm: 105 },
-            { week: 'Sep 22', ddr5udimm: 142, ddr5rdimm: 575, ddr4udimm: 107 },
-            { week: 'Sep 29', ddr5udimm: 145, ddr5rdimm: 582, ddr4udimm: 108 },
-            { week: 'Oct 06', ddr5udimm: 148, ddr5rdimm: 590, ddr4udimm: 110 },
-            { week: 'Oct 13', ddr5udimm: 152, ddr5rdimm: 600, ddr4udimm: 112 },
-            { week: 'Oct 20', ddr5udimm: 155, ddr5rdimm: 610, ddr4udimm: 113 },
-            { week: 'Oct 27', ddr5udimm: 158, ddr5rdimm: 620, ddr4udimm: 115 },
-            { week: 'Nov 03', ddr5udimm: 162, ddr5rdimm: 635, ddr4udimm: 117 },
-            { week: 'Nov 10', ddr5udimm: 168, ddr5rdimm: 655, ddr4udimm: 120 },
-            { week: 'Nov 17', ddr5udimm: 175, ddr5rdimm: 680, ddr4udimm: 123 },
-            { week: 'Nov 24', ddr5udimm: 182, ddr5rdimm: 705, ddr4udimm: 126 },
-            { week: 'Dec 01', ddr5udimm: 190, ddr5rdimm: 730, ddr4udimm: 128 },
-            { week: 'Dec 08', ddr5udimm: 195, ddr5rdimm: 750, ddr4udimm: 130 },
-            { week: 'Dec 15', ddr5udimm: 200, ddr5rdimm: 770, ddr4udimm: 132 },
-            { week: 'Dec 22', ddr5udimm: 205, ddr5rdimm: 785, ddr4udimm: 134 },
-            { week: 'Dec 29', ddr5udimm: 210, ddr5rdimm: 800, ddr4udimm: 136 },
-            { week: 'Jan 05', ddr5udimm: 215, ddr5rdimm: 815, ddr4udimm: 138 },
-            { week: 'Jan 12', ddr5udimm: 220, ddr5rdimm: 830, ddr4udimm: 140 },
-            { week: 'Jan 19', ddr5udimm: 218, ddr5rdimm: 825, ddr4udimm: 139 },
-            { week: 'Jan 26', ddr5udimm: 222, ddr5rdimm: 835, ddr4udimm: 141 },
-            { week: 'Feb 02', ddr5udimm: 225, ddr5rdimm: 845, ddr4udimm: 143 },
-            { week: 'Feb 09', ddr5udimm: 228, ddr5rdimm: 855, ddr4udimm: 144 },
-            { week: 'Feb 16', ddr5udimm: 226, ddr5rdimm: 850, ddr4udimm: 142 },
-            { week: 'Feb 23', ddr5udimm: 224, ddr5rdimm: 845, ddr4udimm: 141 },
-            { week: 'Mar 02', ddr5udimm: 227, ddr5rdimm: 852, ddr4udimm: 143 },
-            { week: 'Mar 09', ddr5udimm: 230, ddr5rdimm: 860, ddr4udimm: 145 },
-            { week: 'Mar 16', ddr5udimm: 228, ddr5rdimm: 855, ddr4udimm: 144 },
-            { week: 'Mar 23', ddr5udimm: 226, ddr5rdimm: 850, ddr4udimm: 143 },
-            { week: 'Mar 30', ddr5udimm: 224, ddr5rdimm: 845, ddr4udimm: 142 },
-            { week: 'Apr 06', ddr5udimm: 222, ddr5rdimm: 840, ddr4udimm: 141 },
-            { week: 'Apr 13', ddr5udimm: 223, ddr5rdimm: 842, ddr4udimm: 140 },
-            { week: 'Apr 18', ddr5udimm: 223, ddr5rdimm: 930, ddr4udimm: 149 }
-        ];
+    <div class="disclaimer">
+      <strong>Data honesty:</strong> Anything between verified anchor points is interpolated. HBM absolute prices are not publicly disclosed — only percentage changes from bilateral contracts are reported. Treat contract figures as directional, not tradeable. This site is research reference, not investment advice.
+    </div>
+  </div>
+</section>
 
-        const historicalData = [
-            // 10-Year DRAM Price Index (2015-2026)
-            // Only verified actual prices - no forecasts or projections
-            // All prices in USD per GB
+<footer>
+  <div class="container foot-inner">
+    <div>
+      <div>Memory Price Index · Agentic Sciences</div>
+      <div style="margin-top:4px;">Last updated 2026-04-18 · <a href="https://github.com/AgenticSciences/memory-price-tracker">github.com/AgenticSciences/memory-price-tracker</a></div>
+    </div>
+    <div>Built as a benchmark reference for perpetual futures research.</div>
+  </div>
+</footer>
 
-            // Annual Data 2015-2024
-            { date: '2015', price: 4.30, source: 'The Memory Guy (Objective Analysis)' },
-            { date: '2016', price: 2.50, source: 'The Memory Guy, Jun 2016 low' },
-            { date: '2017', price: 3.67, source: 'IC Insights: 47% YoY increase' },
-            { date: '2018', price: 5.40, source: 'IC Insights: Q1 2018 peak' },
-            { date: '2019', price: 2.59, source: 'The Memory Guy, Nov 2019 historic low' },
-            { date: '2020', price: 3.40, source: 'Objective Analysis' },
-            { date: '2021', price: 4.35, source: 'Objective Analysis, April 2021' },
-            { date: '2022', price: 4.80, source: 'TrendForce, DDR5 premium' },
-            { date: '2023', price: 1.50, source: 'TrendForce Q4: Cycle bottom' },
-            { date: '2024', price: 2.50, source: 'TrendForce: 53% YoY recovery' },
+<script>
+const gridColor = 'rgba(255,255,255,0.05)';
+const tickColor = '#8a8a93';
+const fontFamily = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
 
-            // Quarterly Data 2025-2026 (Verified Actuals Only)
-            { date: '2025 Q1', price: 2.80, source: 'TrendForce: Actual' },
-            { date: '2025 Q2', price: 3.20, source: 'TrendForce: Actual' },
-            { date: '2025 Q3', price: 3.65, source: 'Objective Analysis: Actual' },
-            { date: '2025 Q4', price: 4.10, source: 'TrendForce: Actual' },
-            { date: '2026 Q1', price: 6.50, source: 'TrendForce: Actual (90-95% QoQ increase verified)' }
-            // Q2 2026 removed: forecast only, not yet actual
-        ];
+Chart.defaults.color = tickColor;
+Chart.defaults.font.family = fontFamily;
+Chart.defaults.font.size = 11;
 
-        const priceComparisonData = [
-            { name: 'DDR5 16Gb', value: 37.83 },
-            { name: 'DDR4 16Gb', value: 69.18 },
-            { name: 'DDR3 4Gb (scaled)', value: 32.12 }
-        ];
+// Spot chart — last ~6 weeks of DDR4 1Gx8 and NAND 512Gb
+new Chart(document.getElementById('spotChart'), {
+  type: 'line',
+  data: {
+    labels: ['Mar 10','Mar 17','Mar 24','Apr 01','Apr 07','Apr 14'],
+    datasets: [
+      {
+        label: 'DDR4 1Gx8 3200 ($)',
+        data: [34.80, 34.50, 34.20, 33.96, 33.56, 33.40],
+        borderColor: '#f5c518',
+        backgroundColor: 'rgba(245,197,24,0.08)',
+        tension: 0.3,
+        borderWidth: 2,
+        pointRadius: 3,
+        fill: true,
+        yAxisID: 'y'
+      },
+      {
+        label: 'NAND 512Gb TLC ($)',
+        data: [22.80, 22.60, 22.40, 22.15, 21.68, 21.00],
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,0.08)',
+        tension: 0.3,
+        borderWidth: 2,
+        pointRadius: 3,
+        fill: true,
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display:false } },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { color: tickColor } },
+      y: { position:'left', grid: { color: gridColor }, ticks: { color: '#f5c518', callback: v => '$'+v }, title:{display:true, text:'DDR4 $', color:'#f5c518'} },
+      y1: { position:'right', grid: { display:false }, ticks: { color: '#3b82f6', callback: v => '$'+v }, title:{display:true, text:'NAND $', color:'#3b82f6'} }
+    }
+  }
+});
 
-        const forecastData = [
-            { category: 'DRAM Q1', value: 92.5 },
-            { category: 'NAND Q1', value: 57.5 },
-            { category: 'DRAM Q2', value: 60.5 },
-            { category: 'NAND Q2', value: 72.5 }
-        ];
+// Contract chart — Q1 2026 QoQ hikes
+new Chart(document.getElementById('contractChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Server DRAM', 'Conventional DRAM', 'NAND', 'Enterprise SSD', 'HBM3E (annual)'],
+    datasets: [{
+      label: 'Q1 2026 QoQ (%)',
+      data: [65, 57, 57, 55, 20],
+      backgroundColor: ['#ef4444','#f5c518','#3b82f6','#a855f7','#22c55e'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label: c => '+'+c.parsed.x+'% QoQ'}}},
+    scales: {
+      x: { grid:{color:gridColor}, ticks:{color:tickColor, callback: v => v+'%'}},
+      y: { grid:{display:false}, ticks:{color:tickColor}}
+    }
+  }
+});
 
-        // Create SVG element helper
-        function createSVG(width, height) {
-            const ns = 'http://www.w3.org/2000/svg';
-            const svg = document.createElementNS(ns, 'svg');
-            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-            return svg;
+// History chart — DRAM $/GB 2012-2026 with verified vs estimated
+const hist = [
+  {x:'2012', v: 2.88, verified: true},
+  {x:'2013', v: 2.70},
+  {x:'2014', v: 2.65},
+  {x:'2015', v: 2.60},
+  {x:'2016', v: 2.62, verified: true},
+  {x:'2017', v: 4.80},
+  {x:'2018', v: 7.80}, // 2017-18 peak
+  {x:'2019', v: 2.59, verified: true},
+  {x:'2020', v: 3.10},
+  {x:'2021', v: 4.20},
+  {x:'2022', v: 3.50},
+  {x:'2023', v: 2.80}, // trough
+  {x:'2024', v: 3.80},
+  {x:'2025', v: 9.20},
+  {x:'2026 Q1', v: 14.50},
+  {x:'2026 Q2', v: 15.80}
+];
+
+new Chart(document.getElementById('historyChart'), {
+  type: 'line',
+  data: {
+    labels: hist.map(d=>d.x),
+    datasets: [
+      {
+        label: 'DRAM $/GB',
+        data: hist.map(d=>d.v),
+        borderColor: '#f5c518',
+        backgroundColor: ctx => {
+          const c = ctx.chart.ctx;
+          const g = c.createLinearGradient(0,0,0,400);
+          g.addColorStop(0, 'rgba(245,197,24,0.25)');
+          g.addColorStop(1, 'rgba(245,197,24,0)');
+          return g;
+        },
+        tension: 0.25,
+        borderWidth: 2.5,
+        fill: true,
+        pointRadius: hist.map(d => d.verified ? 6 : 3),
+        pointBackgroundColor: hist.map(d => d.verified ? '#3b82f6' : '#a855f7'),
+        pointBorderColor: hist.map(d => d.verified ? '#3b82f6' : '#a855f7'),
+        pointHoverRadius: 8
+      }
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{ callbacks: {
+        label: c => {
+          const d = hist[c.dataIndex];
+          return '$' + d.v.toFixed(2) + '/GB · ' + (d.verified ? 'verified' : 'estimated');
         }
+      }}
+    },
+    scales:{
+      x:{ grid:{color:gridColor}, ticks:{color:tickColor}},
+      y:{ grid:{color:gridColor}, ticks:{color:tickColor, callback: v => '$'+v}, title:{display:true, text:'$/GB', color:tickColor}}
+    }
+  }
+});
+</script>
 
-        // Draw price trend line chart
-        function drawPriceTrendChart() {
-            const container = document.getElementById('priceTrendChart');
-            const width = 800;
-            const height = 300;
-            const padding = { top: 20, right: 30, bottom: 50, left: 60 };
-            const svg = createSVG(width, height);
-
-            const chartWidth = width - padding.left - padding.right;
-            const chartHeight = height - padding.top - padding.bottom;
-
-            // Normalize RDIMM prices (divide by 4)
-            const maxPrice = Math.max(...weeklyData.map(d => Math.max(d.ddr5udimm, d.ddr4udimm)));
-            const minPrice = Math.min(...weeklyData.map(d => Math.min(d.ddr5udimm, d.ddr4udimm)));
-
-            const xScale = (i) => padding.left + (i / (weeklyData.length - 1)) * chartWidth;
-            const yScale = (v) => padding.top + chartHeight - ((v - minPrice) / (maxPrice - minPrice)) * chartHeight;
-
-            // Grid lines
-            for (let i = 0; i <= 4; i++) {
-                const y = padding.top + (i / 4) * chartHeight;
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', padding.left);
-                line.setAttribute('y1', y);
-                line.setAttribute('x2', width - padding.right);
-                line.setAttribute('y2', y);
-                line.setAttribute('class', 'grid-line');
-                svg.appendChild(line);
-            }
-
-            // Y-axis labels
-            for (let i = 0; i <= 4; i++) {
-                const value = minPrice + (i / 4) * (maxPrice - minPrice);
-                const y = padding.top + (i / 4) * chartHeight;
-                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                text.setAttribute('x', padding.left - 10);
-                text.setAttribute('y', y + 4);
-                text.setAttribute('text-anchor', 'end');
-                text.setAttribute('class', 'axis-label');
-                text.textContent = '$' + Math.round(value);
-                svg.appendChild(text);
-            }
-
-            // X-axis labels (show every 4th week to avoid crowding)
-            weeklyData.forEach((d, i) => {
-                if (i % 4 === 0) {  // Show label every 4 weeks
-                    const x = xScale(i);
-                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    text.setAttribute('x', x);
-                    text.setAttribute('y', height - padding.bottom + 20);
-                    text.setAttribute('text-anchor', 'middle');
-                    text.setAttribute('class', 'axis-label');
-                    text.textContent = d.week;
-                    svg.appendChild(text);
-                }
-            });
-
-            // Axis titles
-            const yTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            yTitle.setAttribute('x', padding.left - 40);
-            yTitle.setAttribute('y', padding.top + chartHeight / 2);
-            yTitle.setAttribute('transform', `rotate(-90, ${padding.left - 40}, ${padding.top + chartHeight / 2})`);
-            yTitle.setAttribute('text-anchor', 'middle');
-            yTitle.setAttribute('class', 'axis-title');
-            yTitle.textContent = 'Price (USD)';
-            svg.appendChild(yTitle);
-
-            // Draw lines
-            function drawLine(key, color) {
-                const points = weeklyData.map((d, i) => {
-                    let value = d[key];
-                    if (key === 'ddr5rdimm') value = value / 4;
-                    return `${xScale(i)},${yScale(value)}`;
-                }).join(' ');
-
-                const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-                polyline.setAttribute('points', points);
-                polyline.setAttribute('class', 'data-line');
-                polyline.setAttribute('stroke', color);
-                svg.appendChild(polyline);
-
-                // Data points
-                weeklyData.forEach((d, i) => {
-                    let value = d[key];
-                    if (key === 'ddr5rdimm') value = value / 4;
-                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                    circle.setAttribute('cx', xScale(i));
-                    circle.setAttribute('cy', yScale(value));
-                    circle.setAttribute('r', '4');
-                    circle.setAttribute('fill', color);
-                    circle.setAttribute('stroke', '#000');
-                    circle.setAttribute('stroke-width', '0.5');
-                    svg.appendChild(circle);
-                });
-            }
-
-            drawLine('ddr5udimm', '#000');
-            drawLine('ddr5rdimm', '#666');
-            drawLine('ddr4udimm', '#999');
-
-            // Axes
-            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            xAxis.setAttribute('x1', padding.left);
-            xAxis.setAttribute('y1', height - padding.bottom);
-            xAxis.setAttribute('x2', width - padding.right);
-            xAxis.setAttribute('y2', height - padding.bottom);
-            xAxis.setAttribute('class', 'axis-line');
-            svg.appendChild(xAxis);
-
-            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            yAxis.setAttribute('x1', padding.left);
-            yAxis.setAttribute('y1', padding.top);
-            yAxis.setAttribute('x2', padding.left);
-            yAxis.setAttribute('y2', height - padding.bottom);
-            yAxis.setAttribute('class', 'axis-line');
-            svg.appendChild(yAxis);
-
-            container.appendChild(svg);
-        }
-
-        // Draw bar chart
-        function drawBarChart(containerId, data, colors, valuePrefix = '') {
-            const container = document.getElementById(containerId);
-            const width = 800;
-            const height = 300;
-            const padding = { top: 20, right: 30, bottom: 50, left: 60 };
-            const svg = createSVG(width, height);
-
-            const chartWidth = width - padding.left - padding.right;
-            const chartHeight = height - padding.top - padding.bottom;
-            const barWidth = chartWidth / data.length * 0.6;
-            const gap = chartWidth / data.length * 0.4;
-
-            const maxValue = Math.max(...data.map(d => d.value)) * 1.1;
-
-            // Grid lines
-            for (let i = 0; i <= 4; i++) {
-                const y = padding.top + (i / 4) * chartHeight;
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', padding.left);
-                line.setAttribute('y1', y);
-                line.setAttribute('x2', width - padding.right);
-                line.setAttribute('y2', y);
-                line.setAttribute('class', 'grid-line');
-                svg.appendChild(line);
-            }
-
-            // Y-axis labels (reversed so 0 is at bottom, maxValue at top)
-            for (let i = 0; i <= 4; i++) {
-                const value = ((4 - i) / 4) * maxValue;
-                const y = padding.top + (i / 4) * chartHeight;
-                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                text.setAttribute('x', padding.left - 10);
-                text.setAttribute('y', y + 4);
-                text.setAttribute('text-anchor', 'end');
-                text.setAttribute('class', 'axis-label');
-                text.textContent = valuePrefix + value.toFixed(0);
-                svg.appendChild(text);
-            }
-
-            // Bars
-            data.forEach((d, i) => {
-                const x = padding.left + (i * (barWidth + gap)) + gap / 2;
-                const barHeight = (d.value / maxValue) * chartHeight;
-                const y = padding.top + chartHeight - barHeight;
-
-                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                rect.setAttribute('x', x);
-                rect.setAttribute('y', y);
-                rect.setAttribute('width', barWidth);
-                rect.setAttribute('height', barHeight);
-                rect.setAttribute('fill', colors[i % colors.length]);
-                rect.setAttribute('class', 'bar');
-                svg.appendChild(rect);
-
-                // X-axis label
-                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                text.setAttribute('x', x + barWidth / 2);
-                text.setAttribute('y', height - padding.bottom + 20);
-                text.setAttribute('text-anchor', 'middle');
-                text.setAttribute('class', 'axis-label');
-                text.textContent = d.name || d.category;
-                svg.appendChild(text);
-
-                // Value label on bar
-                const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                valueText.setAttribute('x', x + barWidth / 2);
-                valueText.setAttribute('y', y - 5);
-                valueText.setAttribute('text-anchor', 'middle');
-                valueText.setAttribute('class', 'axis-label');
-                valueText.textContent = valuePrefix + d.value;
-                svg.appendChild(valueText);
-            });
-
-            // Axes
-            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            xAxis.setAttribute('x1', padding.left);
-            xAxis.setAttribute('y1', height - padding.bottom);
-            xAxis.setAttribute('x2', width - padding.right);
-            xAxis.setAttribute('y2', height - padding.bottom);
-            xAxis.setAttribute('class', 'axis-line');
-            svg.appendChild(xAxis);
-
-            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            yAxis.setAttribute('x1', padding.left);
-            yAxis.setAttribute('y1', padding.top);
-            yAxis.setAttribute('x2', padding.left);
-            yAxis.setAttribute('y2', height - padding.bottom);
-            yAxis.setAttribute('class', 'axis-line');
-            svg.appendChild(yAxis);
-
-            container.appendChild(svg);
-        }
-
-        // Draw historical chart
-        function drawHistoricalChart() {
-            const container = document.getElementById('historicalChart');
-            const width = 800;
-            const height = 300;
-            const padding = { top: 20, right: 30, bottom: 50, left: 80 };
-            const svg = createSVG(width, height);
-
-            const chartWidth = width - padding.left - padding.right;
-            const chartHeight = height - padding.top - padding.bottom;
-
-            const maxValue = 7.0;
-            const minValue = 1.4;
-
-            const xScale = (i) => padding.left + (i / (historicalData.length - 1)) * chartWidth;
-            const yScale = (v) => padding.top + chartHeight - ((v - minValue) / (maxValue - minValue)) * chartHeight;
-
-            // Grid lines
-            for (let i = 0; i <= 4; i++) {
-                const y = padding.top + (i / 4) * chartHeight;
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', padding.left);
-                line.setAttribute('y1', y);
-                line.setAttribute('x2', width - padding.right);
-                line.setAttribute('y2', y);
-                line.setAttribute('class', 'grid-line');
-                svg.appendChild(line);
-            }
-
-            // Y-axis labels
-            for (let i = 0; i <= 4; i++) {
-                const value = minValue + (i / 4) * (maxValue - minValue);
-                const y = padding.top + (i / 4) * chartHeight;
-                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                text.setAttribute('x', padding.left - 10);
-                text.setAttribute('y', y + 4);
-                text.setAttribute('text-anchor', 'end');
-                text.setAttribute('class', 'axis-label');
-                text.textContent = '$' + value.toFixed(2);
-                svg.appendChild(text);
-            }
-
-            // X-axis labels
-            historicalData.forEach((d, i) => {
-                const x = xScale(i);
-                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                text.setAttribute('x', x);
-                text.setAttribute('y', height - padding.bottom + 20);
-                text.setAttribute('text-anchor', 'middle');
-                text.setAttribute('class', 'axis-label');
-                text.textContent = d.date;
-                svg.appendChild(text);
-            });
-
-            // Line
-            const points = historicalData.map((d, i) => `${xScale(i)},${yScale(d.price)}`).join(' ');
-            const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-            polyline.setAttribute('points', points);
-            polyline.setAttribute('class', 'data-line');
-            polyline.setAttribute('stroke', '#000');
-            svg.appendChild(polyline);
-
-            // Data points
-            historicalData.forEach((d, i) => {
-                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                circle.setAttribute('cx', xScale(i));
-                circle.setAttribute('cy', yScale(d.price));
-                circle.setAttribute('r', '5');
-                circle.setAttribute('fill', '#fff');
-                circle.setAttribute('stroke', '#000');
-                circle.setAttribute('stroke-width', '2');
-                svg.appendChild(circle);
-
-                // Value label
-                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                text.setAttribute('x', xScale(i));
-                text.setAttribute('y', yScale(d.price) - 15);
-                text.setAttribute('text-anchor', 'middle');
-                text.setAttribute('class', 'axis-label');
-                text.textContent = '$' + d.price.toFixed(2);
-                svg.appendChild(text);
-            });
-
-            // Axes
-            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            xAxis.setAttribute('x1', padding.left);
-            xAxis.setAttribute('y1', height - padding.bottom);
-            xAxis.setAttribute('x2', width - padding.right);
-            xAxis.setAttribute('y2', height - padding.bottom);
-            xAxis.setAttribute('class', 'axis-line');
-            svg.appendChild(xAxis);
-
-            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            yAxis.setAttribute('x1', padding.left);
-            yAxis.setAttribute('y1', padding.top);
-            yAxis.setAttribute('x2', padding.left);
-            yAxis.setAttribute('y2', height - padding.bottom);
-            yAxis.setAttribute('class', 'axis-line');
-            svg.appendChild(yAxis);
-
-            // Y-axis title
-            const yTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            yTitle.setAttribute('x', padding.left - 50);
-            yTitle.setAttribute('y', padding.top + chartHeight / 2);
-            yTitle.setAttribute('transform', `rotate(-90, ${padding.left - 50}, ${padding.top + chartHeight / 2})`);
-            yTitle.setAttribute('text-anchor', 'middle');
-            yTitle.setAttribute('class', 'axis-title');
-            yTitle.textContent = 'Price per GB (USD)';
-            svg.appendChild(yTitle);
-
-            container.appendChild(svg);
-        }
-
-        // Initialize charts
-        document.addEventListener('DOMContentLoaded', function() {
-            drawPriceTrendChart();
-            drawBarChart('priceComparisonChart', priceComparisonData, ['#000', '#666', '#999'], '$');
-            drawBarChart('forecastChart', forecastData, ['#000', '#666', '#000', '#666'], '+');
-            drawHistoricalChart();
-        });
-    </script>
 </body>
 </html>
