@@ -596,7 +596,7 @@
     <div class="chart-container">
         <div class="chart-title">Figure 2. DRAM Chip Prices by Generation (per 16Gb equivalent)</div>
         <div class="chart bar-chart" id="priceComparisonChart"></div>
-        <div class="chart-caption">Note: DDR3 price scaled to 16Gb equivalent for comparison.</div>
+        <div class="chart-caption">Note: DDR3 price scaled to 16Gb equivalent for comparison. <strong>Market Note:</strong> DDR4 > DDR5 price inversion reflects "AI Tax" — manufacturers shifted capacity to HBM and DDR5, creating DDR4 supply constraints.</div>
     </div>
 
     <h2><span class="section-number">4.</span>Historical Price Points</h2>
@@ -1232,8 +1232,8 @@
             const chartWidth = width - padding.left - padding.right;
             const chartHeight = height - padding.top - padding.bottom;
 
-            const maxValue = 3.0;
-            const minValue = 2.5;
+            const maxValue = 4.5;
+            const minValue = 1.4;
 
             const xScale = (i) => padding.left + (i / (historicalData.length - 1)) * chartWidth;
             const yScale = (v) => padding.top + chartHeight - ((v - minValue) / (maxValue - minValue)) * chartHeight;
