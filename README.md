@@ -5,6 +5,27 @@
 ## Overview
 A comprehensive research project tracking DRAM and memory prices from multiple sources, designed to serve as a benchmark for perpetual futures contracts.
 
+## ⚠️ Data Accuracy & Sources
+
+### Verified Real-Time Data ✅
+| Source | Data | Verified |
+|--------|------|----------|
+| **DRAMeXchange** | Current spot prices (2026-04) | ✅ Direct scrape |
+| **Ornn OCPI** | H100 GPU: $1.90/hr | ✅ Official website |
+| **TrendForce** | Q2 2026 forecasts | ✅ Research reports |
+
+### Historical Data ⚠️
+| Period | Data | Status |
+|--------|------|--------|
+| 2012-2019 | Spot price $2.59-$2.88/GB | ✅ Verified (The Memory Guy) |
+| 2016-2026 | 10-year charts | ⚠️ Interpolated/Simulated |
+
+**Important**: Historical charts use verified data points where available and market pattern simulation between points. For trading decisions, use only real-time verified sources.
+
+See [HISTORICAL_DATA_SOURCES.md](HISTORICAL_DATA_SOURCES.md) for detailed documentation.
+
+---
+
 ## 📊 Key Findings (April 2026)
 
 ### Current Market Prices
