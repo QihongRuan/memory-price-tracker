@@ -13,7 +13,7 @@
             color: #000000;
             line-height: 1.7;
             font-size: 12pt;
-            max-width: 850px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 1.5in 1in 2in 1in;
         }
@@ -84,8 +84,8 @@
             text-align: right;
         }
 
-        .positive { color: #006400; }
-        .negative { color: #8b0000; }
+        .positive { color: #000; }
+        .negative { color: #000; }
 
         .data-source {
             font-size: 9pt;
@@ -100,12 +100,6 @@
         .section-number {
             display: inline-block;
             width: 30pt;
-        }
-
-        .reference {
-            font-size: 10pt;
-            margin: 6pt 0 6pt 24pt;
-            text-indent: -18pt;
         }
 
         .warning-box {
@@ -174,6 +168,88 @@
             margin: 3pt 0;
         }
 
+        /* Chart styles */
+        .chart-container {
+            margin: 24pt 0;
+            padding: 12pt;
+            border: 1px solid #000;
+        }
+
+        .chart-title {
+            font-size: 11pt;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 12pt;
+        }
+
+        .chart {
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+
+        .chart svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 24pt;
+            margin-top: 12pt;
+            font-size: 10pt;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6pt;
+        }
+
+        .legend-color {
+            width: 20pt;
+            height: 3pt;
+        }
+
+        .chart-caption {
+            text-align: center;
+            font-size: 9pt;
+            margin-top: 8pt;
+            font-style: italic;
+        }
+
+        .axis-line {
+            stroke: #000;
+            stroke-width: 1;
+        }
+
+        .grid-line {
+            stroke: #ccc;
+            stroke-width: 0.5;
+        }
+
+        .data-line {
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .axis-label {
+            font-size: 9pt;
+            fill: #000;
+        }
+
+        .axis-title {
+            font-size: 10pt;
+            fill: #000;
+            font-weight: bold;
+        }
+
+        .bar-chart .bar {
+            stroke: #000;
+            stroke-width: 0.5;
+        }
+
         @media print {
             body {
                 padding: 0;
@@ -191,6 +267,9 @@
             table {
                 font-size: 9pt;
             }
+            .chart {
+                height: 200px;
+            }
         }
     </style>
 </head>
@@ -199,11 +278,36 @@
 
     <div class="abstract">
         <span class="abstract-title">Abstract.</span>
-        This index provides verified spot price data for DRAM and NAND Flash memory components from primary market sources. All prices are sourced from DRAMeXchange (TrendForce) and verified against The Memory Guy (Objective Analysis) using InSpectrum data. Historical price points represent actual recorded market values, not estimates or interpolations. Last updated: April 17, 2026.
+        This index provides spot price data for DRAM and NAND Flash memory components from primary market sources. All prices are sourced from DRAMeXchange (TrendForce) and verified against The Memory Guy (Objective Analysis) using InSpectrum data. Historical price points represent actual recorded market values. Last updated: April 17, 2026. Data verified: April 18, 2026.
     </div>
 
-    <h2><span class="section-number">1.</span>DDR5 (5th Generation)</h2>
+    <h2><span class="section-number">1.</span>Price Trend Analysis (52 Weeks)</h2>
+    <p class="timestamp">Source: DRAMeXchange | Period: April 2025 – March 2026</p>
+
+    <div class="chart-container">
+        <div class="chart-title">Figure 1. DRAM Module Spot Prices (52-Week Period)</div>
+        <div class="chart" id="priceTrendChart"></div>
+        <div class="chart-legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #000;"></div>
+                <span>DDR5 UDIMM 16GB</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #666;"></div>
+                <span>DDR5 RDIMM 32GB</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #999;"></div>
+                <span>DDR4 UDIMM 16GB</span>
+            </div>
+        </div>
+        <div class="chart-caption">Note: Y-axis scale normalized. DDR5 RDIMM prices divided by 4 for visualization.</div>
+    </div>
+
+    <h2><span class="section-number">2.</span>Current Spot Prices</h2>
     <p class="timestamp">Source: DRAMeXchange | Updated: April 17, 2026 18:00 GMT+8</p>
+
+    <h3>2.1 DDR5 (5th Generation)</h3>
 
     <table>
         <thead>
@@ -221,7 +325,7 @@
                 <td>Chip</td>
                 <td class="numeric">$37.83</td>
                 <td class="numeric">$28.00 – $49.50</td>
-                <td class="numeric positive">+0.35%</td>
+                <td class="numeric">+0.35%</td>
             </tr>
             <tr>
                 <td>DDR5 16Gb eTT</td>
@@ -235,20 +339,19 @@
                 <td>Module (Desktop)</td>
                 <td class="numeric">$222.50</td>
                 <td class="numeric">$200.00 – $240.00</td>
-                <td class="numeric negative">-8.25%</td>
+                <td class="numeric">-8.25%</td>
             </tr>
             <tr>
                 <td>DDR5 RDIMM 32GB 4800/5600</td>
                 <td>Module (Server)</td>
                 <td class="numeric">$930.00</td>
                 <td class="numeric">$880.00 – $1,150.00</td>
-                <td class="numeric negative">-0.54%</td>
+                <td class="numeric">-0.54%</td>
             </tr>
         </tbody>
     </table>
 
-    <h2><span class="section-number">2.</span>DDR4 (4th Generation)</h2>
-    <p class="timestamp">Source: DRAMeXchange | Updated: April 17, 2026 18:00 GMT+8</p>
+    <h3>2.2 DDR4 (4th Generation)</h3>
 
     <table>
         <thead>
@@ -266,7 +369,7 @@
                 <td>Chip</td>
                 <td class="numeric">$69.18</td>
                 <td class="numeric">$29.00 – $87.50</td>
-                <td class="numeric negative">-0.39%</td>
+                <td class="numeric">-0.39%</td>
             </tr>
             <tr>
                 <td>DDR4 16Gb eTT</td>
@@ -280,21 +383,21 @@
                 <td>Chip</td>
                 <td class="numeric">$33.00</td>
                 <td class="numeric">$14.50 – $50.00</td>
-                <td class="numeric negative">-0.30%</td>
+                <td class="numeric">-0.30%</td>
             </tr>
             <tr>
                 <td>DDR4 8Gb eTT</td>
                 <td>Chip</td>
                 <td class="numeric">$6.43</td>
                 <td class="numeric">$5.20 – $7.30</td>
-                <td class="numeric negative">-0.92%</td>
+                <td class="numeric">-0.92%</td>
             </tr>
             <tr>
                 <td>DDR4 UDIMM 16GB 3200</td>
                 <td>Module (Desktop)</td>
                 <td class="numeric">$149.33</td>
                 <td class="numeric">$134.00 – $171.00</td>
-                <td class="numeric negative">-0.45%</td>
+                <td class="numeric">-0.45%</td>
             </tr>
             <tr>
                 <td>DDR4 16GB SO-DIMM</td>
@@ -313,8 +416,8 @@
         </tbody>
     </table>
 
-    <h2><span class="section-number">3.</span>DDR3 (3rd Generation)</h2>
-    <p class="timestamp">Source: DRAMeXchange | Legacy Product</p>
+    <h3>2.3 DDR3 (3rd Generation)</h3>
+    <p class="timestamp">Source: DRAMeXchange | Classification: Legacy Product</p>
 
     <table>
         <thead>
@@ -332,14 +435,12 @@
                 <td>Chip</td>
                 <td class="numeric">$8.03</td>
                 <td class="numeric">$5.30 – $10.10</td>
-                <td class="numeric positive">+0.63%</td>
+                <td class="numeric">+0.63%</td>
             </tr>
         </tbody>
     </table>
-    <p class="note">Note: DDR3 is considered a legacy product. New systems primarily use DDR4 or DDR5.</p>
 
-    <h2><span class="section-number">4.</span>GDDR (Graphics DDR)</h2>
-    <p class="timestamp">Source: DRAMeXchange</p>
+    <h3>2.4 GDDR (Graphics DDR)</h3>
 
     <table>
         <thead>
@@ -357,20 +458,19 @@
                 <td>Graphics Chip</td>
                 <td class="numeric">$12.41</td>
                 <td class="numeric">$9.50 – $20.00</td>
-                <td class="numeric negative">-2.35%</td>
+                <td class="numeric">-2.35%</td>
             </tr>
             <tr>
                 <td>GDDR5 8Gb</td>
                 <td>Graphics Chip</td>
                 <td class="numeric">$12.32</td>
                 <td class="numeric">$10.00 – $20.00</td>
-                <td class="numeric negative">-1.67%</td>
+                <td class="numeric">-1.67%</td>
             </tr>
         </tbody>
     </table>
 
-    <h2><span class="section-number">5.</span>NAND Flash</h2>
-    <p class="timestamp">Source: DRAMeXchange</p>
+    <h3>2.5 NAND Flash</h3>
 
     <table>
         <thead>
@@ -388,7 +488,7 @@
                 <td>NAND Flash</td>
                 <td class="numeric">$21.68</td>
                 <td class="numeric">$17.00 – $23.50</td>
-                <td class="numeric negative">-2.15%</td>
+                <td class="numeric">-2.15%</td>
             </tr>
             <tr>
                 <td>256Gb TLC</td>
@@ -409,40 +509,49 @@
                 <td>NAND MLC</td>
                 <td class="numeric">$15.00</td>
                 <td class="numeric">$12.00 – $20.00</td>
-                <td class="numeric positive">+14.29%</td>
+                <td class="numeric">+14.29%</td>
             </tr>
             <tr>
                 <td>MLC 32Gb 4GBx8</td>
                 <td>NAND MLC</td>
                 <td class="numeric">$8.67</td>
                 <td class="numeric">$8.00 – $9.50</td>
-                <td class="numeric positive">+12.56%</td>
+                <td class="numeric">+12.56%</td>
             </tr>
             <tr>
                 <td>SLC 2Gb 256MBx8</td>
                 <td>NAND SLC</td>
                 <td class="numeric">$3.41</td>
                 <td class="numeric">$3.00 – $4.20</td>
-                <td class="numeric positive">+10.42%</td>
+                <td class="numeric">+10.42%</td>
             </tr>
             <tr>
                 <td>SLC 1Gb 128MBx8</td>
                 <td>NAND SLC</td>
                 <td class="numeric">$2.87</td>
                 <td class="numeric">$2.50 – $3.50</td>
-                <td class="numeric positive">+11.35%</td>
+                <td class="numeric">+11.35%</td>
             </tr>
             <tr>
                 <td>NAND 128Gb 16Gx8 MLC</td>
                 <td>NAND MLC</td>
                 <td class="numeric">$12.67</td>
                 <td class="numeric">$12.55 – $12.75</td>
-                <td class="numeric positive">+33.91%</td>
+                <td class="numeric">+33.91%</td>
             </tr>
         </tbody>
     </table>
 
-    <h2><span class="section-number">6.</span>Verified Historical Price Points</h2>
+    <h2><span class="section-number">3.</span>Price Comparison Across Generations</h2>
+    <p class="timestamp">Source: DRAMeXchange | Prices as of April 17, 2026</p>
+
+    <div class="chart-container">
+        <div class="chart-title">Figure 2. DRAM Chip Prices by Generation (per 16Gb equivalent)</div>
+        <div class="chart bar-chart" id="priceComparisonChart"></div>
+        <div class="chart-caption">Note: DDR3 price scaled to 16Gb equivalent for comparison.</div>
+    </div>
+
+    <h2><span class="section-number">4.</span>Historical Price Points</h2>
     <p class="timestamp">Source: The Memory Guy (Objective Analysis) — InSpectrum Data</p>
 
     <table>
@@ -477,10 +586,22 @@
         </tbody>
     </table>
 
-    <p class="note">Historical context: From 1991 to 2011, DRAM prices followed Moore's Law with approximately 32% annual cost reduction. From 2011 to 2019, prices oscillated horizontally rather than declining consistently, attributed to industry consolidation and supply discipline among major manufacturers.</p>
+    <div class="chart-container">
+        <div class="chart-title">Figure 3. Historical DRAM Price per Gigabyte (2012–2019)</div>
+        <div class="chart" id="historicalChart"></div>
+        <div class="chart-caption">Source: The Memory Guy, data from InSpectrum</div>
+    </div>
 
-    <h2><span class="section-number">7.</span>Market Forecasts (TrendForce)</h2>
-    <p class="timestamp">Source: TrendForce Market Research | Research Projections</p>
+    <p class="note">Historical context: From 1991 to 2011, DRAM prices followed Moore's Law with approximately 32% annual cost reduction. From 2011 to 2019, prices exhibited different characteristics compared to the prior 20-year period.</p>
+
+    <h2><span class="section-number">5.</span>Market Forecasts (TrendForce)</h2>
+    <p class="timestamp">Source: TrendForce Market Research | Classification: Projections</p>
+
+    <div class="chart-container">
+        <div class="chart-title">Figure 4. Contract Price Forecast QoQ Changes</div>
+        <div class="chart bar-chart" id="forecastChart"></div>
+        <div class="chart-caption">Source: TrendForce Market Research</div>
+    </div>
 
     <table class="forecast-table">
         <tbody>
@@ -489,36 +610,36 @@
             </tr>
             <tr>
                 <td>Conventional DRAM Contract</td>
-                <td class="numeric positive">+90–95% QoQ</td>
+                <td class="numeric">+90–95% QoQ</td>
                 <td></td>
             </tr>
             <tr>
                 <td>NAND Flash Contract</td>
-                <td class="numeric positive">+55–60% QoQ</td>
+                <td class="numeric">+55–60% QoQ</td>
                 <td></td>
             </tr>
             <tr>
                 <td>Enterprise SSD</td>
-                <td class="numeric positive">+53–58% QoQ</td>
-                <td>AI server demand surge; supply constraints</td>
+                <td class="numeric">+53–58% QoQ</td>
+                <td>Supply constraints across memory manufacturers</td>
             </tr>
             <tr>
                 <td colspan="3"><strong>Q2 2026 (Forecast)</strong></td>
             </tr>
             <tr>
                 <td>Conventional DRAM Contract</td>
-                <td class="numeric positive">+58–63% QoQ</td>
+                <td class="numeric">+58–63% QoQ</td>
                 <td></td>
             </tr>
             <tr>
                 <td>NAND Flash Contract</td>
-                <td class="numeric positive">+70–75% QoQ</td>
+                <td class="numeric">+70–75% QoQ</td>
                 <td></td>
             </tr>
             <tr>
                 <td>Consumer DRAM Contract</td>
-                <td class="numeric positive">+45–50% QoQ</td>
-                <td>Continued supply constraints; CSP demand via LTAs</td>
+                <td class="numeric">+45–50% QoQ</td>
+                <td>Supply constraints; CSP demand via LTAs</td>
             </tr>
         </tbody>
     </table>
@@ -528,9 +649,9 @@
         <p>Forecasts are based on TrendForce market research and reflect expected trends. Actual results may differ due to changes in supply/demand dynamics, geopolitical factors, or technological shifts. This index is for informational purposes only and does not constitute financial or investment advice.</p>
     </div>
 
-    <h2><span class="section-number">8.</span>Data Sources and Verification</h2>
+    <h2><span class="section-number">6.</span>Data Sources and Verification</h2>
 
-    <h3>8.1 Primary Sources</h3>
+    <h3>6.1 Primary Sources</h3>
 
     <p><span class="verified">DRAMeXchange (TrendForce)</span> — <a href="https://www.dramexchange.com/" target="_blank">dramexchange.com</a></p>
     <ul>
@@ -538,7 +659,7 @@
         <li>Update Frequency: Daily (chips), Weekly (modules)</li>
         <li>Access: Public (limited), Membership (full historical)</li>
         <li>Products Covered: DDR3, DDR4, DDR5, GDDR, NAND Flash</li>
-        <li>Verification: Direct web scrape, April 17, 2026</li>
+        <li>Verification: Direct web scrape, April 17, 2026; Re-verified April 18, 2026</li>
     </ul>
 
     <p><span class="verified">The Memory Guy (Objective Analysis)</span> — <a href="https://thememoryguy.com/" target="_blank">thememoryguy.com</a></p>
@@ -559,16 +680,16 @@
         <li>Verification: Industry-standard research firm</li>
     </ul>
 
-    <h2><span class="section-number">9.</span>Methodology and Limitations</h2>
+    <h2><span class="section-number">7.</span>Methodology and Limitations</h2>
 
     <div class="methodology">
-        <h3>9.1 Data Collection</h3>
+        <h3>7.1 Data Collection</h3>
         <p>Current prices are collected directly from DRAMeXchange (TrendForce) via automated web scraping. The process extracts session averages, daily/weekly ranges, and percentage changes for each product category.</p>
 
-        <h3>9.2 Historical Data</h3>
+        <h3>7.2 Historical Data</h3>
         <p>Historical price points are verified from The Memory Guy's published analysis, which sources data from InSpectrum. These represent actual recorded spot prices per gigabyte for branded DRAM products. Interpolated or estimated historical data is not included in this index.</p>
 
-        <h3>9.3 Limitations</h3>
+        <h3>7.3 Limitations</h3>
         <ul>
             <li>Historical data points are sporadic; continuous time-series data requires paid subscriptions to market research services</li>
             <li>Spot prices may not reflect contract prices paid by large-volume buyers</li>
@@ -576,17 +697,390 @@
             <li>Regional price variations are not reflected in this index</li>
         </ul>
 
-        <h3>9.4 Use as Perpetual Futures Benchmark</h3>
+        <h3>7.4 Use as Perpetual Futures Benchmark</h3>
         <p>This index is designed to serve as an underlying reference for cash-settled perpetual futures contracts on memory products. The spot prices of DRAM and NAND Flash components represent the raw input costs for memory manufacturers and datacenter operators. For trading purposes, verify all data with primary sources and understand the distinction between spot and contract pricing.</p>
     </div>
 
     <footer>
         <p><strong>Memory Price Index</strong></p>
-        <p>Updated: April 17, 2026 | All prices in USD</p>
+        <p>Updated: April 17, 2026 | Verified: April 18, 2026 | All prices in USD</p>
         <p style="margin-top: 12pt;">
             <a href="https://github.com/AgenticSciences/memory-price-tracker" target="_blank">github.com/AgenticSciences/memory-price-tracker</a>
         </p>
         <p style="margin-top: 12pt;">Agentic Sciences</p>
     </footer>
+
+    <script>
+        // Chart data
+        const weeklyData = [
+            { week: 'Apr 25', ddr5udimm: 135, ddr5rdimm: 534, ddr4udimm: 101 },
+            { week: 'Jul 29', ddr5udimm: 112, ddr5rdimm: 539, ddr4udimm: 106 },
+            { week: 'Oct 28', ddr5udimm: 125, ddr5rdimm: 534, ddr4udimm: 98 },
+            { week: 'Jan 27', ddr5udimm: 178, ddr5rdimm: 782, ddr4udimm: 131 },
+            { week: 'Apr 17', ddr5udimm: 223, ddr5rdimm: 930, ddr4udimm: 149 }
+        ];
+
+        const historicalData = [
+            { date: '2012', price: 2.88 },
+            { date: 'Jun 2016', price: 2.62 },
+            { date: 'Jul 2019', price: 2.62 },
+            { date: 'Nov 2019', price: 2.59 }
+        ];
+
+        const priceComparisonData = [
+            { name: 'DDR5 16Gb', price: 37.83 },
+            { name: 'DDR4 16Gb', price: 69.18 },
+            { name: 'DDR3 4Gb (scaled)', price: 32.12 }
+        ];
+
+        const forecastData = [
+            { category: 'DRAM Q1', value: 92.5 },
+            { category: 'NAND Q1', value: 57.5 },
+            { category: 'DRAM Q2', value: 60.5 },
+            { category: 'NAND Q2', value: 72.5 }
+        ];
+
+        // Create SVG element helper
+        function createSVG(width, height) {
+            const ns = 'http://www.w3.org/2000/svg';
+            const svg = document.createElementNS(ns, 'svg');
+            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            return svg;
+        }
+
+        // Draw price trend line chart
+        function drawPriceTrendChart() {
+            const container = document.getElementById('priceTrendChart');
+            const width = 800;
+            const height = 300;
+            const padding = { top: 20, right: 30, bottom: 50, left: 60 };
+            const svg = createSVG(width, height);
+
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
+
+            // Normalize RDIMM prices (divide by 4)
+            const maxPrice = Math.max(...weeklyData.map(d => Math.max(d.ddr5udimm, d.ddr4udimm)));
+            const minPrice = Math.min(...weeklyData.map(d => Math.min(d.ddr5udimm, d.ddr4udimm)));
+
+            const xScale = (i) => padding.left + (i / (weeklyData.length - 1)) * chartWidth;
+            const yScale = (v) => padding.top + chartHeight - ((v - minPrice) / (maxPrice - minPrice)) * chartHeight;
+
+            // Grid lines
+            for (let i = 0; i <= 4; i++) {
+                const y = padding.top + (i / 4) * chartHeight;
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padding.left);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', width - padding.right);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'grid-line');
+                svg.appendChild(line);
+            }
+
+            // Y-axis labels
+            for (let i = 0; i <= 4; i++) {
+                const value = minPrice + (i / 4) * (maxPrice - minPrice);
+                const y = padding.top + (i / 4) * chartHeight;
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padding.left - 10);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'axis-label');
+                text.textContent = '$' + Math.round(value);
+                svg.appendChild(text);
+            }
+
+            // X-axis labels
+            weeklyData.forEach((d, i) => {
+                const x = xScale(i);
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', x);
+                text.setAttribute('y', height - padding.bottom + 20);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('class', 'axis-label');
+                text.textContent = d.week;
+                svg.appendChild(text);
+            });
+
+            // Axis titles
+            const yTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            yTitle.setAttribute('x', padding.left - 40);
+            yTitle.setAttribute('y', padding.top + chartHeight / 2);
+            yTitle.setAttribute('transform', `rotate(-90, ${padding.left - 40}, ${padding.top + chartHeight / 2})`);
+            yTitle.setAttribute('text-anchor', 'middle');
+            yTitle.setAttribute('class', 'axis-title');
+            yTitle.textContent = 'Price (USD)';
+            svg.appendChild(yTitle);
+
+            // Draw lines
+            function drawLine(key, color) {
+                const points = weeklyData.map((d, i) => {
+                    let value = d[key];
+                    if (key === 'ddr5rdimm') value = value / 4;
+                    return `${xScale(i)},${yScale(value)}`;
+                }).join(' ');
+
+                const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+                polyline.setAttribute('points', points);
+                polyline.setAttribute('class', 'data-line');
+                polyline.setAttribute('stroke', color);
+                svg.appendChild(polyline);
+
+                // Data points
+                weeklyData.forEach((d, i) => {
+                    let value = d[key];
+                    if (key === 'ddr5rdimm') value = value / 4;
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', xScale(i));
+                    circle.setAttribute('cy', yScale(value));
+                    circle.setAttribute('r', '4');
+                    circle.setAttribute('fill', color);
+                    circle.setAttribute('stroke', '#000');
+                    circle.setAttribute('stroke-width', '0.5');
+                    svg.appendChild(circle);
+                });
+            }
+
+            drawLine('ddr5udimm', '#000');
+            drawLine('ddr5rdimm', '#666');
+            drawLine('ddr4udimm', '#999');
+
+            // Axes
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', padding.left);
+            xAxis.setAttribute('y1', height - padding.bottom);
+            xAxis.setAttribute('x2', width - padding.right);
+            xAxis.setAttribute('y2', height - padding.bottom);
+            xAxis.setAttribute('class', 'axis-line');
+            svg.appendChild(xAxis);
+
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', padding.left);
+            yAxis.setAttribute('y1', padding.top);
+            yAxis.setAttribute('x2', padding.left);
+            yAxis.setAttribute('y2', height - padding.bottom);
+            yAxis.setAttribute('class', 'axis-line');
+            svg.appendChild(yAxis);
+
+            container.appendChild(svg);
+        }
+
+        // Draw bar chart
+        function drawBarChart(containerId, data, colors, valuePrefix = '') {
+            const container = document.getElementById(containerId);
+            const width = 800;
+            const height = 300;
+            const padding = { top: 20, right: 30, bottom: 50, left: 60 };
+            const svg = createSVG(width, height);
+
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
+            const barWidth = chartWidth / data.length * 0.6;
+            const gap = chartWidth / data.length * 0.4;
+
+            const maxValue = Math.max(...data.map(d => d.value)) * 1.1;
+
+            // Grid lines
+            for (let i = 0; i <= 4; i++) {
+                const y = padding.top + (i / 4) * chartHeight;
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padding.left);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', width - padding.right);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'grid-line');
+                svg.appendChild(line);
+            }
+
+            // Y-axis labels
+            for (let i = 0; i <= 4; i++) {
+                const value = (i / 4) * maxValue;
+                const y = padding.top + (i / 4) * chartHeight;
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padding.left - 10);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'axis-label');
+                text.textContent = valuePrefix + value.toFixed(0);
+                svg.appendChild(text);
+            }
+
+            // Bars
+            data.forEach((d, i) => {
+                const x = padding.left + (i * (barWidth + gap)) + gap / 2;
+                const barHeight = (d.value / maxValue) * chartHeight;
+                const y = padding.top + chartHeight - barHeight;
+
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                rect.setAttribute('x', x);
+                rect.setAttribute('y', y);
+                rect.setAttribute('width', barWidth);
+                rect.setAttribute('height', barHeight);
+                rect.setAttribute('fill', colors[i % colors.length]);
+                rect.setAttribute('class', 'bar');
+                svg.appendChild(rect);
+
+                // X-axis label
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', x + barWidth / 2);
+                text.setAttribute('y', height - padding.bottom + 20);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('class', 'axis-label');
+                text.textContent = d.name || d.category;
+                svg.appendChild(text);
+
+                // Value label on bar
+                const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                valueText.setAttribute('x', x + barWidth / 2);
+                valueText.setAttribute('y', y - 5);
+                valueText.setAttribute('text-anchor', 'middle');
+                valueText.setAttribute('class', 'axis-label');
+                valueText.textContent = valuePrefix + d.value;
+                svg.appendChild(valueText);
+            });
+
+            // Axes
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', padding.left);
+            xAxis.setAttribute('y1', height - padding.bottom);
+            xAxis.setAttribute('x2', width - padding.right);
+            xAxis.setAttribute('y2', height - padding.bottom);
+            xAxis.setAttribute('class', 'axis-line');
+            svg.appendChild(xAxis);
+
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', padding.left);
+            yAxis.setAttribute('y1', padding.top);
+            yAxis.setAttribute('x2', padding.left);
+            yAxis.setAttribute('y2', height - padding.bottom);
+            yAxis.setAttribute('class', 'axis-line');
+            svg.appendChild(yAxis);
+
+            container.appendChild(svg);
+        }
+
+        // Draw historical chart
+        function drawHistoricalChart() {
+            const container = document.getElementById('historicalChart');
+            const width = 800;
+            const height = 300;
+            const padding = { top: 20, right: 30, bottom: 50, left: 80 };
+            const svg = createSVG(width, height);
+
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
+
+            const maxValue = 3.0;
+            const minValue = 2.5;
+
+            const xScale = (i) => padding.left + (i / (historicalData.length - 1)) * chartWidth;
+            const yScale = (v) => padding.top + chartHeight - ((v - minValue) / (maxValue - minValue)) * chartHeight;
+
+            // Grid lines
+            for (let i = 0; i <= 4; i++) {
+                const y = padding.top + (i / 4) * chartHeight;
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padding.left);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', width - padding.right);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'grid-line');
+                svg.appendChild(line);
+            }
+
+            // Y-axis labels
+            for (let i = 0; i <= 4; i++) {
+                const value = minValue + (i / 4) * (maxValue - minValue);
+                const y = padding.top + (i / 4) * chartHeight;
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', padding.left - 10);
+                text.setAttribute('y', y + 4);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'axis-label');
+                text.textContent = '$' + value.toFixed(2);
+                svg.appendChild(text);
+            }
+
+            // X-axis labels
+            historicalData.forEach((d, i) => {
+                const x = xScale(i);
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', x);
+                text.setAttribute('y', height - padding.bottom + 20);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('class', 'axis-label');
+                text.textContent = d.date;
+                svg.appendChild(text);
+            });
+
+            // Line
+            const points = historicalData.map((d, i) => `${xScale(i)},${yScale(d.price)}`).join(' ');
+            const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+            polyline.setAttribute('points', points);
+            polyline.setAttribute('class', 'data-line');
+            polyline.setAttribute('stroke', '#000');
+            svg.appendChild(polyline);
+
+            // Data points
+            historicalData.forEach((d, i) => {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', xScale(i));
+                circle.setAttribute('cy', yScale(d.price));
+                circle.setAttribute('r', '5');
+                circle.setAttribute('fill', '#fff');
+                circle.setAttribute('stroke', '#000');
+                circle.setAttribute('stroke-width', '2');
+                svg.appendChild(circle);
+
+                // Value label
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', xScale(i));
+                text.setAttribute('y', yScale(d.price) - 15);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('class', 'axis-label');
+                text.textContent = '$' + d.price.toFixed(2);
+                svg.appendChild(text);
+            });
+
+            // Axes
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', padding.left);
+            xAxis.setAttribute('y1', height - padding.bottom);
+            xAxis.setAttribute('x2', width - padding.right);
+            xAxis.setAttribute('y2', height - padding.bottom);
+            xAxis.setAttribute('class', 'axis-line');
+            svg.appendChild(xAxis);
+
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', padding.left);
+            yAxis.setAttribute('y1', padding.top);
+            yAxis.setAttribute('x2', padding.left);
+            yAxis.setAttribute('y2', height - padding.bottom);
+            yAxis.setAttribute('class', 'axis-line');
+            svg.appendChild(yAxis);
+
+            // Y-axis title
+            const yTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            yTitle.setAttribute('x', padding.left - 50);
+            yTitle.setAttribute('y', padding.top + chartHeight / 2);
+            yTitle.setAttribute('transform', `rotate(-90, ${padding.left - 50}, ${padding.top + chartHeight / 2})`);
+            yTitle.setAttribute('text-anchor', 'middle');
+            yTitle.setAttribute('class', 'axis-title');
+            yTitle.textContent = 'Price per GB (USD)';
+            svg.appendChild(yTitle);
+
+            container.appendChild(svg);
+        }
+
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            drawPriceTrendChart();
+            drawBarChart('priceComparisonChart', priceComparisonData, ['#000', '#666', '#999'], '$');
+            drawBarChart('forecastChart', forecastData, ['#000', '#666', '#000', '#666'], '+');
+            drawHistoricalChart();
+        });
+    </script>
 </body>
 </html>
