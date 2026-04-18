@@ -1,0 +1,223 @@
+{
+  "analysis_date": "2026-04-17",
+  "price_performance_metrics": [
+    {
+      "product": "DDR5 UDIMM 16GB 4800/5600",
+      "price_usd": 220.0,
+      "capacity_gb": 16,
+      "price_per_gb": 13.75,
+      "bandwidth_gbps": 41.599999999999994,
+      "price_per_gbps": 5.288,
+      "latency_ns": 13.5,
+      "power_w": 5.2,
+      "performance_per_watt": 8.0,
+      "passmark_score": 3200,
+      "price_per_passmark_point": 0.0688,
+      "userbenchmark_score": 145,
+      "price_per_userbenchmark": 1.517,
+      "geekbench_memory": 8500,
+      "price_per_geekbench": 0.0259,
+      "composite_score": 61.72,
+      "price_per_composite": 3.564
+    },
+    {
+      "product": "DDR5 RDIMM 32GB 4800/5600",
+      "price_usd": 1015.0,
+      "capacity_gb": 32,
+      "price_per_gb": 31.72,
+      "bandwidth_gbps": 41.599999999999994,
+      "price_per_gbps": 24.399,
+      "latency_ns": 14.2,
+      "power_w": 6.0,
+      "performance_per_watt": 6.93,
+      "passmark_score": 3400,
+      "price_per_passmark_point": 0.2985,
+      "userbenchmark_score": 152,
+      "price_per_userbenchmark": 6.678,
+      "geekbench_memory": 9200,
+      "price_per_geekbench": 0.1103,
+      "composite_score": 65.6,
+      "price_per_composite": 15.473
+    },
+    {
+      "product": "DDR4 UDIMM 16GB 3200",
+      "price_usd": 152.5,
+      "capacity_gb": 16,
+      "price_per_gb": 9.53,
+      "bandwidth_gbps": 25.6,
+      "price_per_gbps": 5.957,
+      "latency_ns": 14.0,
+      "power_w": 4.8,
+      "performance_per_watt": 5.33,
+      "passmark_score": 2100,
+      "price_per_passmark_point": 0.0726,
+      "userbenchmark_score": 95,
+      "price_per_userbenchmark": 1.605,
+      "geekbench_memory": 5800,
+      "price_per_geekbench": 0.0263,
+      "composite_score": 40.98,
+      "price_per_composite": 3.721
+    },
+    {
+      "product": "LPDDR4X 8GB",
+      "price_usd": 78.5,
+      "capacity_gb": 8,
+      "price_per_gb": 9.81,
+      "bandwidth_gbps": 29.85,
+      "price_per_gbps": 2.63,
+      "latency_ns": 20.0,
+      "power_w": 0.8,
+      "performance_per_watt": 37.31,
+      "passmark_score": 1650,
+      "price_per_passmark_point": 0.0476,
+      "userbenchmark_score": 78,
+      "price_per_userbenchmark": 1.006,
+      "geekbench_memory": 4200,
+      "price_per_geekbench": 0.0187,
+      "composite_score": 32.26,
+      "price_per_composite": 2.433
+    },
+    {
+      "product": "GDDR6 8GB",
+      "price_usd": 88.5,
+      "capacity_gb": 8,
+      "price_per_gb": 11.06,
+      "bandwidth_gbps": 336.0,
+      "price_per_gbps": 0.263,
+      "latency_ns": 18.0,
+      "power_w": 15.0,
+      "performance_per_watt": 22.4,
+      "passmark_score": 5800,
+      "price_per_passmark_point": 0.0153,
+      "userbenchmark_score": 185,
+      "price_per_userbenchmark": 0.478,
+      "geekbench_memory": 6200,
+      "price_per_geekbench": 0.0143,
+      "composite_score": 91.85,
+      "price_per_composite": 0.964
+    }
+  ],
+  "value_rankings": {
+    "Best Overall Value": [
+      [
+        "GDDR6 8GB",
+        0.964
+      ],
+      [
+        "LPDDR4X 8GB",
+        2.433
+      ],
+      [
+        "DDR5 UDIMM 16GB 4800/5600",
+        3.564
+      ],
+      [
+        "DDR4 UDIMM 16GB 3200",
+        3.721
+      ],
+      [
+        "DDR5 RDIMM 32GB 4800/5600",
+        15.473
+      ]
+    ],
+    "Best Bandwidth per $": [
+      [
+        "GDDR6 8GB",
+        336.0,
+        0.263
+      ],
+      [
+        "DDR5 UDIMM 16GB 4800/5600",
+        41.599999999999994,
+        5.288
+      ],
+      [
+        "DDR5 RDIMM 32GB 4800/5600",
+        41.599999999999994,
+        24.399
+      ],
+      [
+        "LPDDR4X 8GB",
+        29.85,
+        2.63
+      ],
+      [
+        "DDR4 UDIMM 16GB 3200",
+        25.6,
+        5.957
+      ]
+    ],
+    "Best Benchmark per $": [
+      [
+        "GDDR6 8GB",
+        0.0153
+      ],
+      [
+        "LPDDR4X 8GB",
+        0.0476
+      ],
+      [
+        "DDR5 UDIMM 16GB 4800/5600",
+        0.0688
+      ],
+      [
+        "DDR4 UDIMM 16GB 3200",
+        0.0726
+      ],
+      [
+        "DDR5 RDIMM 32GB 4800/5600",
+        0.2985
+      ]
+    ],
+    "Most Power Efficient": [
+      [
+        "LPDDR4X 8GB",
+        37.31
+      ],
+      [
+        "GDDR6 8GB",
+        22.4
+      ],
+      [
+        "DDR5 UDIMM 16GB 4800/5600",
+        8.0
+      ],
+      [
+        "DDR5 RDIMM 32GB 4800/5600",
+        6.93
+      ],
+      [
+        "DDR4 UDIMM 16GB 3200",
+        5.33
+      ]
+    ],
+    "Best Price per GB": [
+      [
+        "DDR4 UDIMM 16GB 3200",
+        9.53
+      ],
+      [
+        "LPDDR4X 8GB",
+        9.81
+      ],
+      [
+        "GDDR6 8GB",
+        11.06
+      ],
+      [
+        "DDR5 UDIMM 16GB 4800/5600",
+        13.75
+      ],
+      [
+        "DDR5 RDIMM 32GB 4800/5600",
+        31.72
+      ]
+    ]
+  },
+  "summary": {
+    "best_overall_value": "GDDR6 8GB",
+    "highest_performance": "GDDR6 8GB",
+    "lowest_price_per_gb": "DDR4 UDIMM 16GB 3200",
+    "most_power_efficient": "LPDDR4X 8GB"
+  }
+}

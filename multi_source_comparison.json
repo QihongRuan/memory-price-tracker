@@ -1,0 +1,157 @@
+{
+  "report_date": "2026-04-17T23:53:18.366651",
+  "dram_spot_prices": [
+    {
+      "source": "DRAMeXchange",
+      "product": "DDR5 UDIMM 16GB 4800/5600",
+      "price_type": "Module price",
+      "price": 222.5,
+      "currency": "USD",
+      "frequency": "Weekly",
+      "timestamp": "2026-04-17"
+    },
+    {
+      "source": "DRAMeXchange",
+      "product": "DDR5 16Gb (2Gx8) 4800/5600",
+      "price_type": "Chip price",
+      "price": 37.833,
+      "currency": "USD",
+      "frequency": "Daily",
+      "timestamp": "2026-04-17"
+    },
+    {
+      "source": "TrendForce",
+      "product": "Conventional DRAM (Q2 2026 forecast)",
+      "price_type": "Forecast change",
+      "price": "+58-63%",
+      "currency": "QoQ change",
+      "frequency": "Quarterly forecast",
+      "timestamp": "2026-04-17"
+    }
+  ],
+  "gpu_compute_prices": [
+    {
+      "source": "Ornn OCPI",
+      "product": "H100 Compute",
+      "price": 1.9,
+      "unit": "$/hour",
+      "methodology": "Live traded transactions",
+      "regulation": "U.S.-regulated",
+      "transparency": "Transaction-based"
+    },
+    {
+      "source": "AWS (estimated)",
+      "product": "H100 Compute",
+      "price": "$2.50-$3.50",
+      "unit": "$/hour",
+      "methodology": "Cloud provider pricing",
+      "regulation": "N/A",
+      "transparency": "Provider-set pricing"
+    },
+    {
+      "source": "GCP (estimated)",
+      "product": "H100 Compute",
+      "price": "$2.40-$3.20",
+      "unit": "$/hour",
+      "methodology": "Cloud provider pricing",
+      "regulation": "N/A",
+      "transparency": "Provider-set pricing"
+    },
+    {
+      "source": "Azure (estimated)",
+      "product": "H100 Compute",
+      "price": "$2.60-$3.40",
+      "unit": "$/hour",
+      "methodology": "Cloud provider pricing",
+      "regulation": "N/A",
+      "transparency": "Provider-set pricing"
+    }
+  ],
+  "source_comparison": [
+    {
+      "Source": "DRAMeXchange (TrendForce)",
+      "URL": "https://www.dramexchange.com/",
+      "Update Frequency": "Daily/Weekly",
+      "Access": "Public (limited) / Membership",
+      "Strengths": "Live spot prices, industry standard",
+      "Best For": "Real-time spot price tracking"
+    },
+    {
+      "Source": "Ornn OCPI (Ornn Compute Price Index)",
+      "URL": "https://ornn.com/",
+      "Update Frequency": "Real-time",
+      "Access": "Institutional / API",
+      "Strengths": "Transaction-based, regulated derivatives",
+      "Best For": "GPU derivatives trading, hedging"
+    },
+    {
+      "Source": "TrendForce Market Research",
+      "URL": "https://www.trendforce.com/",
+      "Update Frequency": "Monthly/Quarterly reports",
+      "Access": "Free (limited) / Paid subscription",
+      "Strengths": "Market forecasts, deep analysis",
+      "Best For": "Market forecasting, planning"
+    },
+    {
+      "Source": "ICIS (Independent Chemical Information Service)",
+      "URL": "https://www.icis.com/",
+      "Update Frequency": "Daily spot prices",
+      "Access": "Subscription only",
+      "Strengths": "Daily assessments, global coverage",
+      "Best For": "Daily price assessments"
+    },
+    {
+      "Source": "Bloomberg Terminal",
+      "URL": "https://www.bloomberg.com/professional/",
+      "Update Frequency": "Real-time memory chip prices, OCPI indices",
+      "Access": "Subscription",
+      "Strengths": "Real-time data, comprehensive coverage",
+      "Best For": "Varies"
+    },
+    {
+      "Source": "Reuters Eikon",
+      "URL": "https://www.refinitiv.com/",
+      "Update Frequency": "DRAM/NAND spot and contract prices",
+      "Access": "Subscription",
+      "Strengths": "News-integrated, historical data",
+      "Best For": "Varies"
+    },
+    {
+      "Source": "Silicon Data",
+      "URL": "API access",
+      "Update Frequency": "Memory chip prices, market data",
+      "Access": "API subscription",
+      "Strengths": "API integration, developer-friendly",
+      "Best For": "Varies"
+    }
+  ],
+  "key_findings": [
+    "DRAMeXchange provides most granular DRAM spot prices",
+    "Ornn OCPI is only regulated derivatives exchange for GPU compute",
+    "TrendForce offers best QoQ forecasts for planning",
+    "ICIS provides daily price assessments via subscription",
+    "Bloomberg Terminal lists OCPI for institutional access"
+  ],
+  "data_quality_ranking": [
+    {
+      "rank": 1,
+      "source": "Ornn OCPI",
+      "reason": "Transaction-based pricing, regulated"
+    },
+    {
+      "rank": 2,
+      "source": "DRAMeXchange",
+      "reason": "Industry standard, frequent updates"
+    },
+    {
+      "rank": 3,
+      "source": "ICIS",
+      "reason": "Daily assessments, methodology"
+    },
+    {
+      "rank": 4,
+      "source": "TrendForce",
+      "reason": "Excellent forecasts, less frequent"
+    }
+  ]
+}
